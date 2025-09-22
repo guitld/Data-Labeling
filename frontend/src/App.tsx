@@ -72,6 +72,19 @@ const App: React.FC = () => {
   const [tagUpvotes, setTagUpvotes] = useState<TagUpvote[]>([]);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
+  
+  // Debug modal state
+  useEffect(() => {
+    console.log('Modal state changed:', { showImageModal, selectedImage: selectedImage?.id });
+  }, [showImageModal, selectedImage]);
+  
+  // Force re-render when modal state changes
+  const [modalKey, setModalKey] = useState(0);
+  useEffect(() => {
+    if (showImageModal && selectedImage) {
+      setModalKey(prev => prev + 1);
+    }
+  }, [showImageModal, selectedImage]);
   const [newTagText, setNewTagText] = useState('');
   const [suggestingTag, setSuggestingTag] = useState(false);
   const [showCreateGroupModal, setShowCreateGroupModal] = useState(false);
@@ -99,6 +112,12 @@ const App: React.FC = () => {
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [reviewingTag, setReviewingTag] = useState(false);
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [currentGroupPage, setCurrentGroupPage] = useState(0);
+  const groupsPerPage = 6;
+  
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Load data when user logs in
   useEffect(() => {
@@ -163,6 +182,30 @@ const App: React.FC = () => {
       console.error('Failed to load data:', error);
       setError('Failed to load data');
     }
+  };
+
+  // Search function
+  const searchImages = (images: Image[], query: string) => {
+    if (!query.trim()) return images;
+    
+    const lowercaseQuery = query.toLowerCase();
+    return images.filter(image => {
+      // Search by image name
+      if (image.original_name.toLowerCase().includes(lowercaseQuery)) return true;
+      
+      // Search by group name
+      const group = groups.find(g => g.id === image.group_id);
+      if (group && group.name.toLowerCase().includes(lowercaseQuery)) return true;
+      
+      // Search by uploaded by
+      if (image.uploaded_by.toLowerCase().includes(lowercaseQuery)) return true;
+      
+      // Search by tags
+      const imageTags = approvedTags.filter(tag => tag.image_id === image.id);
+      if (imageTags.some(tag => tag.tag.toLowerCase().includes(lowercaseQuery))) return true;
+      
+      return false;
+    });
   };
 
   const generateRecentActivity = () => {
@@ -946,13 +989,27 @@ const App: React.FC = () => {
         );
       
       case 'gallery':
-        const filteredImages = selectedGroup 
+        let filteredImages = selectedGroup 
           ? images.filter(img => img.group_id === selectedGroup)
           : images;
+        
+        // Apply search
+        filteredImages = searchImages(filteredImages, searchQuery);
 
         return (
           <div className="gallery">
             <div className="gallery-header">
+              {/* Search Info */}
+              {searchQuery && (
+                <div className="gallery-info">
+                  <div className="search-info">
+                    <span className="search-badge">
+                      🔍 "{searchQuery}" ({filteredImages.length} results)
+                    </span>
+                  </div>
+                </div>
+              )}
+              
               <div className="group-selector">
                       <button 
                   className={`group-folder ${selectedGroup === null ? 'active' : ''}`}
@@ -999,6 +1056,18 @@ const App: React.FC = () => {
                         />
                         <div className="image-overlay">
                           <span className="view-icon">👁</span>
+                          {user?.role === 'admin' && (
+                            <button
+                              className="delete-image-btn-gallery"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteImage(image.id);
+                              }}
+                              title="Delete image"
+                            >
+                              🗑️
+                            </button>
+                          )}
                       </div>
                       </div>
                       <div className="image-info">
@@ -1033,205 +1102,172 @@ const App: React.FC = () => {
               </div>
             )}
 
-            {/* Image Modal */}
-            {showImageModal && selectedImage && (
-              <div className="modal-overlay" onClick={() => setShowImageModal(false)}>
-                <div className="modal-content-new" onClick={(e) => e.stopPropagation()}>
-                  <button 
-                    className="modal-close"
-                    onClick={() => setShowImageModal(false)}
-                  >
-                    ×
-                  </button>
-                  
-                  <div className="modal-layout">
-                    <div className="modal-image-container">
-                      <img 
-                        src={`http://localhost:8082/uploads/${selectedImage.filename}`} 
-                        alt={selectedImage.original_name}
-                        className="modal-image-large"
-                          />
                         </div>
-                    
-                    <div className="modal-sidebar">
-                      <div className="image-details">
-                        <h3>{selectedImage.original_name}</h3>
-                        <p><strong>Group:</strong> {groups.find(g => g.id === selectedImage.group_id)?.name || 'Unknown'}</p>
-                        <p><strong>Uploaded:</strong> {new Date(selectedImage.uploaded_at).toLocaleDateString()}</p>
-                        <p><strong>By:</strong> {selectedImage.uploaded_by}</p>
-                      </div>
-
-                      {/* Tag Suggestions */}
-                      <div className="tag-suggestion-box">
-                        <h4>Suggest a Tag</h4>
-                        <div className="tag-input-group">
-                          <input
-                            type="text"
-                            className="form-input"
-                            placeholder="Enter tag..."
-                            value={newTagText}
-                            onChange={(e) => setNewTagText(e.target.value)}
-                          />
-                          <button
-                            className="login-button"
-                            onClick={() => handleSuggestTag(selectedImage.id)}
-                            disabled={suggestingTag || !newTagText.trim()}
-                          >
-                            {suggestingTag ? 'Adding...' : 'Suggest'}
-                          </button>
-              </div>
-            </div>
-            
-                      {/* Approved Tags */}
-                      <div className="all-tags-section">
-                        <h4>Approved Tags</h4>
-                        {approvedTags.filter(tag => tag.image_id === selectedImage.id).length > 0 ? (
-                          <div className="tag-list">
-                            {approvedTags
-                              .filter(tag => tag.image_id === selectedImage.id)
-                              .sort((a, b) => {
-                                const aUpvoted = tagUpvotes.some(upvote => 
-                                  upvote.tag_id === a.id && upvote.user_id === user?.username
-                                );
-                                const bUpvoted = tagUpvotes.some(upvote => 
-                                  upvote.tag_id === b.id && upvote.user_id === user?.username
-                                );
-                                
-                                // Prioritize upvoted tags first
-                                if (aUpvoted && !bUpvoted) return -1;
-                                if (!aUpvoted && bUpvoted) return 1;
-                                
-                                // If both have same upvote status, sort by upvote count (descending)
-                                return b.upvotes - a.upvotes;
-                              })
-                              .map(tag => {
-                                const hasUpvoted = tagUpvotes.some(upvote => 
-                                  upvote.tag_id === tag.id && upvote.user_id === user?.username
-                                );
-                                return (
-                                  <div key={tag.id} className="tag-item-approved">
-                                    <span className="tag-text">{tag.tag}</span>
-                                    <div className={`upvote-section ${hasUpvoted ? 'upvoted' : 'not-upvoted'}`} onClick={() => handleUpvoteTag(tag.id)}>
-                                      <span className="upvote-count">{tag.upvotes}</span>
-              </div>
-          </div>
-                                );
-                              })}
-        </div>
-      ) : (
-                          <p className="no-tags">No approved tags yet.</p>
-                        )}
-                      </div>
-
-                      {/* Pending Suggestions (Admin only) */}
-                      {user?.role === 'admin' && (
-                        <div className="tags-section">
-                          <h4>Pending Suggestions</h4>
-                          {tagSuggestions.filter(sug => 
-                            sug.image_id === selectedImage.id && sug.status === 'pending'
-                          ).length > 0 ? (
-                            <div className="tag-list">
-                              {tagSuggestions
-                                .filter(sug => sug.image_id === selectedImage.id && sug.status === 'pending')
-                                .map(suggestion => (
-                                  <div key={suggestion.id} className="tag-item">
-                                    <span className="tag-text">{suggestion.tag}</span>
-                                    <div className="tag-actions">
-            <button
-                                        className="approve-button-small"
-                                        onClick={() => handleApproveTag(suggestion.id)}
-                                      >
-                                        ✓
-                                      </button>
-                                      <button
-                                        className="reject-button-small"
-                                        onClick={() => handleRejectTag(suggestion.id)}
-                                      >
-                                        ✗
-            </button>
-          </div>
-                                  </div>
-                                ))}
-                            </div>
-                          ) : (
-                            <p className="no-tags">No pending suggestions.</p>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Rejected Suggestions (Admin only) */}
-                      {user?.role === 'admin' && (
-                        <div className="tags-section">
-                          <h4 className="rejected-title">Rejected Suggestions</h4>
-                          {tagSuggestions.filter(sug => 
-                            sug.image_id === selectedImage.id && sug.status === 'rejected'
-                          ).length > 0 ? (
-                            <div className="tag-list">
-                              {tagSuggestions
-                                .filter(sug => sug.image_id === selectedImage.id && sug.status === 'rejected')
-                                .map(suggestion => (
-                                  <div key={suggestion.id} className="tag-item-rejected">
-                                    <span className="tag-text">{suggestion.tag}</span>
-                    </div>
-                                ))}
-                  </div>
-                          ) : (
-                            <p className="no-tags">No rejected suggestions.</p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
         );
       
       case 'upload':
         return (
-          <div className="upload-view">
-            <h2>Upload Images</h2>
-            
-            <div className="upload-section">
-              <h3>Upload to Group</h3>
-              <form onSubmit={handleUpload} className="upload-form">
-                <div className="form-group">
-                  <label className="form-label">Select Group</label>
-                  <select 
-                    className="form-input"
-                    value={uploadGroup}
-                    onChange={(e) => setUploadGroup(e.target.value)}
-                    required
-                  >
-                    <option value="">Choose a group...</option>
-                    {groups.map((group) => (
-                      <option key={group.id} value={group.id}>
-                        {group.name} - {group.description}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+          <div className="upload-view-modern">
+            <div className="upload-header">
+              <h2>📤 Upload Images</h2>
+              <p className="upload-subtitle">Share your images with the team and organize them by groups</p>
+                      </div>
+
+            <div className="upload-main">
+              <div className="upload-section">
+                <h3>🎯 Choose Destination Group</h3>
+                <div className="group-selection">
+                  <div className="group-selection-container">
+                    <div className="group-grid">
+                      {groups
+                        .slice(currentGroupPage * groupsPerPage, (currentGroupPage + 1) * groupsPerPage)
+                        .map((group) => {
+                          const groupImages = images.filter(img => img.group_id === group.id);
+                          return (
+                            <div
+                              key={group.id}
+                              className={`group-option ${uploadGroup === group.id ? 'selected' : ''}`}
+                              onClick={() => setUploadGroup(group.id)}
+                            >
+                              <div className="group-icon">📁</div>
+                              <div className="group-info">
+                                <h4>{group.name}</h4>
+                                <p>{group.description}</p>
+                                <span className="group-count">{groupImages.length} images</span>
+              </div>
+          </div>
+                                );
+                              })}
+                      </div>
+
+                    {groups.length > groupsPerPage && (
+                      <div className="group-pagination">
+            <button
+                          className="pagination-btn prev"
+                          onClick={() => setCurrentGroupPage(Math.max(0, currentGroupPage - 1))}
+                          disabled={currentGroupPage === 0}
+                                      >
+                          ← Previous
+                                      </button>
+                        
+                        <div className="pagination-info">
+                          <span>
+                            Page {currentGroupPage + 1} of {Math.ceil(groups.length / groupsPerPage)}
+                          </span>
+                          <span className="pagination-count">
+                            ({groups.length} total groups)
+                          </span>
+                        </div>
+                        
+                                      <button
+                          className="pagination-btn next"
+                          onClick={() => setCurrentGroupPage(Math.min(Math.ceil(groups.length / groupsPerPage) - 1, currentGroupPage + 1))}
+                          disabled={currentGroupPage >= Math.ceil(groups.length / groupsPerPage) - 1}
+                                      >
+                          Next →
+            </button>
+                        </div>
+                      )}
+
+                    {groups.length === 0 && (
+                      <div className="no-groups">
+                        <p>No groups available. Create a group first!</p>
+                        <button 
+                          className="create-group-btn"
+                          onClick={() => setCurrentView('groups')}
+                        >
+                          Create Group
+                        </button>
+                    </div>
+                          )}
+                        </div>
+                    </div>
                 
-                <div className="form-group">
-                  <label className="form-label">Select Image</label>
+                <div className="upload-dropzone">
+                  <div className="dropzone-content">
+                    <div className="dropzone-icon">🖼️</div>
+                    <h4>Drop your images here</h4>
+                    <p>or click to browse files</p>
+                    <div className="supported-formats">
+                      <span>Supports: JPG, PNG, GIF, WebP</span>
+                </div>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
-                    className="form-input"
+                      className="file-input"
                     required
                   />
                 </div>
                 
+                  {uploadFile && (
+                    <div className="image-preview-container">
+                      <img
+                        src={URL.createObjectURL(uploadFile)}
+                        alt="Preview"
+                        className="image-preview"
+                      />
+                      <div className="preview-overlay">
+                        <button
+                          type="button"
+                          className="remove-image-btn"
+                          onClick={() => setUploadFile(null)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <div className="file-info">
+                        <div className="file-name">{uploadFile.name}</div>
+                        <div className="file-size">{(uploadFile.size / 1024 / 1024).toFixed(2)} MB</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                {uploading && (
+                  <div className="upload-progress-section">
+                    <h3>⏳ Uploading...</h3>
+                    <div className="progress-container">
+                      <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${uploadProgress}%` }}></div>
+                      </div>
+                      <div className="progress-text">{uploadProgress}%</div>
+                    </div>
+                  </div>
+                )}
+                
+                <div className="upload-actions">
+                  <button 
+                    type="button"
+                    className="cancel-btn"
+                    onClick={() => {
+                      setUploadFile(null);
+                      setUploadGroup('');
+                      setUploadProgress(0);
+                    }}
+                    disabled={uploading}
+                  >
+                    Cancel
+                  </button>
                 <button 
                   type="submit" 
-                  className="login-button"
+                    className="upload-btn"
                   disabled={uploading || !uploadFile || !uploadGroup}
-                >
-                  {uploading ? 'Uploading...' : 'Upload Image'}
+                    onClick={handleUpload}
+                  >
+                    {uploading ? (
+                      <>
+                        <span className="btn-spinner"></span>
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        🚀 Upload Image
+                      </>
+                    )}
                 </button>
-              </form>
+                </div>
+              </div>
               </div>
             </div>
         );
@@ -1807,173 +1843,6 @@ const App: React.FC = () => {
         </div>
       )}
 
-            {/* Image Modal */}
-            {showImageModal && selectedImage && (
-              <div className="modal-overlay" onClick={() => setShowImageModal(false)}>
-                <div className="modal-content-new" onClick={(e) => e.stopPropagation()}>
-                  <button 
-                    className="modal-close"
-                    onClick={() => setShowImageModal(false)}
-                  >
-                    ×
-                  </button>
-                  
-                  <div className="modal-layout">
-                    <div className="modal-image-container">
-                      <img
-                        src={`http://localhost:8082/uploads/${selectedImage.filename}`}
-                        alt={selectedImage.original_name}
-                        className="modal-image-large"
-                      />
-                    </div>
-                    
-                    <div className="modal-sidebar">
-                      <div className="image-details">
-                        <h3>{selectedImage.original_name}</h3>
-                        <p><strong>Uploaded by:</strong> {selectedImage.uploaded_by}</p>
-                        <p><strong>Date:</strong> {new Date(selectedImage.uploaded_at).toLocaleDateString()}</p>
-                        <p><strong>Group:</strong> {groups.find(g => g.id === selectedImage.group_id)?.name || 'Unknown'}</p>
-                      </div>
-
-                      <div className="tag-suggestion-box">
-                        <h4>Suggest a Tag</h4>
-                        <form onSubmit={(e) => {
-                          e.preventDefault();
-                          if (selectedImage) {
-                            handleSuggestTag(selectedImage.id);
-                          }
-                        }}>
-                          <div className="tag-input-group">
-                            <input
-                              type="text"
-                              className="form-input"
-                              value={newTagText}
-                              onChange={(e) => setNewTagText(e.target.value)}
-                              placeholder="Enter tag suggestion..."
-                              required
-                            />
-                            <button
-                              type="submit"
-                              className="login-button"
-                              disabled={suggestingTag || !newTagText.trim()}
-                            >
-                              {suggestingTag ? 'Suggesting...' : 'Suggest'}
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-
-                      <div className="all-tags-section">
-                        <h4>Approved Tags</h4>
-                        {approvedTags
-                          .filter(tag => tag.image_id === selectedImage.id)
-                          .sort((a, b) => {
-                            const aUpvoted = tagUpvotes.some(upvote =>
-                              upvote.tag_id === a.id && upvote.user_id === user?.username
-                            );
-                            const bUpvoted = tagUpvotes.some(upvote =>
-                              upvote.tag_id === b.id && upvote.user_id === user?.username
-                            );
-
-                            if (aUpvoted && !bUpvoted) return -1;
-                            if (!aUpvoted && bUpvoted) return 1;
-                            return b.upvotes - a.upvotes;
-                          })
-                          .length > 0 ? (
-                          <div className="tag-list">
-                            {approvedTags
-                              .filter(tag => tag.image_id === selectedImage.id)
-                              .sort((a, b) => {
-                                const aUpvoted = tagUpvotes.some(upvote =>
-                                  upvote.tag_id === a.id && upvote.user_id === user?.username
-                                );
-                                const bUpvoted = tagUpvotes.some(upvote =>
-                                  upvote.tag_id === b.id && upvote.user_id === user?.username
-                                );
-
-                                if (aUpvoted && !bUpvoted) return -1;
-                                if (!aUpvoted && bUpvoted) return 1;
-                                return b.upvotes - a.upvotes;
-                              })
-                              .map(tag => {
-                                const hasUpvoted = tagUpvotes.some(upvote =>
-                                  upvote.tag_id === tag.id && upvote.user_id === user?.username
-                                );
-                                return (
-                                  <div key={tag.id} className="tag-item-approved">
-                                    <div className={`upvote-section ${hasUpvoted ? 'upvoted' : 'not-upvoted'}`} onClick={() => handleUpvoteTag(tag.id)}>
-                                      <span className="upvote-count">{tag.upvotes}</span>
-                                    </div>
-                                    <span className="tag-text">{tag.tag}</span>
-                                  </div>
-                                );
-                              })}
-                          </div>
-                        ) : (
-                          <p className="no-tags">No approved tags yet.</p>
-                        )}
-                      </div>
-
-                      {user?.role === 'admin' && (
-                        <div className="tags-section">
-                          <h4>Pending Suggestions</h4>
-                          {tagSuggestions.filter(sug =>
-                            sug.image_id === selectedImage.id && sug.status === 'pending'
-                          ).length > 0 ? (
-                            <div className="tag-list">
-                              {tagSuggestions
-                                .filter(sug => sug.image_id === selectedImage.id && sug.status === 'pending')
-                                .map(suggestion => (
-                                  <div key={suggestion.id} className="tag-item">
-                                    <span className="tag-text">{suggestion.tag}</span>
-                                    <div className="tag-actions">
-                                      <button
-                                        className="approve-button-small"
-                                        onClick={() => handleApproveTag(suggestion.id)}
-                                      >
-                                        ✓
-                                      </button>
-                                      <button
-                                        className="reject-button-small"
-                                        onClick={() => handleRejectTag(suggestion.id)}
-                                      >
-                                        ✗
-                                      </button>
-                                    </div>
-                                  </div>
-                                ))}
-                            </div>
-                          ) : (
-                            <p className="no-tags">No pending suggestions.</p>
-                          )}
-                        </div>
-                      )}
-
-                      {user?.role === 'admin' && (
-                        <div className="tags-section">
-                          <h4 className="rejected-title">Rejected Suggestions</h4>
-                          {tagSuggestions.filter(sug =>
-                            sug.image_id === selectedImage.id && sug.status === 'rejected'
-                          ).length > 0 ? (
-                            <div className="tag-list">
-                              {tagSuggestions
-                                .filter(sug => sug.image_id === selectedImage.id && sug.status === 'rejected')
-                                .map(suggestion => (
-                                  <div key={suggestion.id} className="tag-item-rejected">
-                                    <span className="tag-text">{suggestion.tag}</span>
-                                  </div>
-                                ))}
-                            </div>
-                          ) : (
-                            <p className="no-tags">No rejected suggestions.</p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         );
       
@@ -2100,10 +1969,19 @@ const App: React.FC = () => {
                     const image = images.find(img => img.id === suggestion.image_id);
                     return (
                       <div key={suggestion.id} className="suggestion-card-minimal">
-                        <div className="suggestion-image-minimal" onClick={() => {
-                          setSelectedImage(image || null);
-                          setShowImageModal(true);
-                        }}>
+                        <div 
+                          className="suggestion-image-minimal"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('Image clicked:', image);
+                            if (image) {
+                              console.log('Setting selected image and opening modal');
+                              setSelectedImage(image);
+                              setShowImageModal(true);
+                            }
+                          }}
+                        >
                           {image ? (
                             <img 
                               src={`http://localhost:8082/uploads/${image.filename}`} 
@@ -2114,8 +1992,24 @@ const App: React.FC = () => {
                             <div className="no-image-minimal">No Image</div>
                           )}
                           <div className="group-badge">
-                            {groups.find(g => g.id === image?.group_id)?.name || 'Unknown'}
+                            {image ? groups.find(g => g.id === image.group_id)?.name || 'Unknown Group' : 'No Image'}
               </div>
+                          <button 
+                            className="view-image-btn-minimal"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              console.log('View button clicked:', image);
+                              if (image) {
+                                console.log('Opening modal from button');
+                                setSelectedImage(image);
+                                setShowImageModal(true);
+                              }
+                            }}
+                            title="View image"
+                          >
+                            👁
+                          </button>
           </div>
                         <div className="suggestion-content-minimal">
                           <div className="tag-text-minimal">{suggestion.tag}</div>
@@ -2184,7 +2078,7 @@ const App: React.FC = () => {
                         </div>
                         <div className="tag-meta">
                           <small>
-                            {image?.original_name} • {new Date(tag.approved_at).toLocaleDateString()}
+                            {image?.original_name} • {image ? groups.find(g => g.id === image.group_id)?.name || 'Unknown Group' : 'No Image'} • {new Date(tag.approved_at).toLocaleDateString()}
                           </small>
       </div>
     </div>
@@ -2369,14 +2263,42 @@ const App: React.FC = () => {
         
         <div className="main-content sidebar-open">
           <div className="content-header">
-            <h1 className="page-title">
-              {currentView === 'dashboard' && 'Dashboard'}
-              {currentView === 'gallery' && 'Image Gallery'}
-              {currentView === 'upload' && 'Upload Images'}
-              {currentView === 'groups' && 'Manage Groups'}
-              {currentView === 'tags' && 'Manage Tags'}
-              {currentView === 'tag-review' && 'Tag Review'}
-            </h1>
+            <div className="header-top">
+              <h1 className="page-title">
+                {currentView === 'dashboard' && 'Dashboard'}
+                {currentView === 'gallery' && 'Image Gallery'}
+                {currentView === 'upload' && 'Upload Images'}
+                {currentView === 'groups' && 'Manage Groups'}
+                {currentView === 'tags' && 'Manage Tags'}
+                {currentView === 'tag-review' && 'Tag Review'}
+              </h1>
+              
+              {/* Search Bar - Only in Gallery */}
+              {currentView === 'gallery' && (
+                <div className="global-search-container">
+                  <div className="search-input-wrapper">
+                    <span className="search-icon">🔍</span>
+                    <input
+                      type="text"
+                      className="global-search-input"
+                      placeholder="Search images, tags, groups..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    {searchQuery && (
+                      <button
+                        className="clear-search-btn"
+                        onClick={() => setSearchQuery('')}
+                        title="Clear search"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+            
             {error && <div className="error-message">{error}</div>}
           </div>
 
@@ -2385,6 +2307,174 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
+        
+        {/* Global Image Modal */}
+        {showImageModal && selectedImage && (
+          <div key={modalKey} className="modal-overlay" onClick={() => setShowImageModal(false)}>
+            <div className="modal-content-new" onClick={(e) => e.stopPropagation()}>
+              <button 
+                className="modal-close"
+                onClick={() => setShowImageModal(false)}
+              >
+                ×
+              </button>
+              
+              <div className="modal-layout">
+                <div className="modal-image-container">
+                  <img
+                    src={`http://localhost:8082/uploads/${selectedImage.filename}`}
+                    alt={selectedImage.original_name}
+                    className="modal-image-large"
+                  />
+                </div>
+                
+                <div className="modal-sidebar">
+                  <div className="image-details">
+                    <h3>{selectedImage.original_name}</h3>
+                    <p><strong>Uploaded by:</strong> {selectedImage.uploaded_by}</p>
+                    <p><strong>Date:</strong> {new Date(selectedImage.uploaded_at).toLocaleDateString()}</p>
+                    <p><strong>Group:</strong> {groups.find(g => g.id === selectedImage.group_id)?.name || 'Unknown'}</p>
+                  </div>
+
+                  <div className="tag-suggestion-box">
+                    <h4>Suggest a Tag</h4>
+                    <form onSubmit={(e) => {
+                      e.preventDefault();
+                      if (selectedImage) {
+                        handleSuggestTag(selectedImage.id);
+                      }
+                    }}>
+                      <div className="tag-input-group">
+                        <input
+                          type="text"
+                          className="form-input"
+                          value={newTagText}
+                          onChange={(e) => setNewTagText(e.target.value)}
+                          placeholder="Enter tag suggestion..."
+                          required
+                        />
+                        <button
+                          type="submit"
+                          className="login-button"
+                          disabled={suggestingTag || !newTagText.trim()}
+                        >
+                          {suggestingTag ? 'Suggesting...' : 'Suggest'}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div className="all-tags-section">
+                    <h4>Approved Tags</h4>
+                    {approvedTags
+                      .filter(tag => tag.image_id === selectedImage.id)
+                      .sort((a, b) => {
+                        const aUpvoted = tagUpvotes.some(upvote =>
+                          upvote.tag_id === a.id && upvote.user_id === user?.username
+                        );
+                        const bUpvoted = tagUpvotes.some(upvote =>
+                          upvote.tag_id === b.id && upvote.user_id === user?.username
+                        );
+
+                        if (aUpvoted && !bUpvoted) return -1;
+                        if (!aUpvoted && bUpvoted) return 1;
+                        return b.upvotes - a.upvotes;
+                      })
+                      .length > 0 ? (
+                      <div className="tag-list">
+                        {approvedTags
+                          .filter(tag => tag.image_id === selectedImage.id)
+                          .sort((a, b) => {
+                            const aUpvoted = tagUpvotes.some(upvote =>
+                              upvote.tag_id === a.id && upvote.user_id === user?.username
+                            );
+                            const bUpvoted = tagUpvotes.some(upvote =>
+                              upvote.tag_id === b.id && upvote.user_id === user?.username
+                            );
+
+                            if (aUpvoted && !bUpvoted) return -1;
+                            if (!aUpvoted && bUpvoted) return 1;
+                            return b.upvotes - a.upvotes;
+                          })
+                          .map(tag => {
+                            const hasUpvoted = tagUpvotes.some(upvote =>
+                              upvote.tag_id === tag.id && upvote.user_id === user?.username
+                            );
+                            return (
+                              <div key={tag.id} className="tag-item-approved">
+                                <div className={`upvote-section ${hasUpvoted ? 'upvoted' : 'not-upvoted'}`} onClick={() => handleUpvoteTag(tag.id)}>
+                                  <span className="upvote-count">{tag.upvotes}</span>
+                                </div>
+                                <span className="tag-text">{tag.tag}</span>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    ) : (
+                      <p className="no-tags">No approved tags yet.</p>
+                    )}
+                  </div>
+
+                  {user?.role === 'admin' && (
+                    <div className="tags-section">
+                      <h4>Pending Suggestions</h4>
+                      {tagSuggestions.filter(sug =>
+                        sug.image_id === selectedImage.id && sug.status === 'pending'
+                      ).length > 0 ? (
+                        <div className="tag-list">
+                          {tagSuggestions
+                            .filter(sug => sug.image_id === selectedImage.id && sug.status === 'pending')
+                            .map(suggestion => (
+                              <div key={suggestion.id} className="tag-item">
+                                <span className="tag-text">{suggestion.tag}</span>
+                                <div className="tag-actions">
+                                  <button
+                                    className="approve-button-small"
+                                    onClick={() => handleApproveTag(suggestion.id)}
+                                  >
+                                    ✓
+                                  </button>
+                                  <button
+                                    className="reject-button-small"
+                                    onClick={() => handleRejectTag(suggestion.id)}
+                                  >
+                                    ✗
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      ) : (
+                        <p className="no-tags">No pending suggestions.</p>
+                      )}
+                    </div>
+                  )}
+
+                  {user?.role === 'admin' && (
+                    <div className="tags-section">
+                      <h4 className="rejected-title">Rejected Suggestions</h4>
+                      {tagSuggestions.filter(sug =>
+                        sug.image_id === selectedImage.id && sug.status === 'rejected'
+                      ).length > 0 ? (
+                        <div className="tag-list">
+                          {tagSuggestions
+                            .filter(sug => sug.image_id === selectedImage.id && sug.status === 'rejected')
+                            .map(suggestion => (
+                              <div key={suggestion.id} className="tag-item-rejected">
+                                <span className="tag-text">{suggestion.tag}</span>
+                              </div>
+                            ))}
+                        </div>
+                      ) : (
+                        <p className="no-tags">No rejected suggestions.</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 };
