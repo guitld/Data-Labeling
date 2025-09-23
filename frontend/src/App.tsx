@@ -73,10 +73,6 @@ const App: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
   
-  // Debug modal state
-  useEffect(() => {
-    console.log('Modal state changed:', { showImageModal, selectedImage: selectedImage?.id });
-  }, [showImageModal, selectedImage]);
   
   // Force re-render when modal state changes
   const [modalKey, setModalKey] = useState(0);
@@ -115,6 +111,7 @@ const App: React.FC = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [currentGroupPage, setCurrentGroupPage] = useState(0);
   const groupsPerPage = 6;
+  const [isRefreshing, setIsRefreshing] = useState(false);
   
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
@@ -124,6 +121,17 @@ const App: React.FC = () => {
     if (user) {
       loadData();
     }
+  }, [user]);
+
+  // Auto-refresh data every 5 seconds for real-time updates
+  useEffect(() => {
+    if (!user) return;
+
+    const interval = setInterval(() => {
+      loadData(true); // Show refresh indicator
+    }, 5000); // Refresh every 5 seconds
+
+    return () => clearInterval(interval);
   }, [user]);
 
   // Reset review index when it goes beyond available suggestions
@@ -153,7 +161,11 @@ const App: React.FC = () => {
     };
   }, [showUserDropdown]);
 
-  const loadData = async () => {
+  const loadData = async (showRefreshIndicator = false) => {
+    if (showRefreshIndicator) {
+      setIsRefreshing(true);
+    }
+    
     try {
       // Load groups from backend
       const groupsResponse = await axios.get('http://localhost:8082/groups');
@@ -169,18 +181,26 @@ const App: React.FC = () => {
       const usersResponse = await axios.get('http://localhost:8082/users');
       setAvailableUsers(usersResponse.data || []);
       
-      // Load tags and suggestions from data.json (for now)
-      const response = await fetch('/data.json');
-      const data = await response.json();
-      setTagSuggestions(Object.values(data.tag_suggestions));
-      setApprovedTags(Object.values(data.approved_tags));
-      setTagUpvotes(Object.values(data.tag_upvotes));
+      // Load tags and suggestions from backend
+      const [tagsResponse, approvedResponse, upvotesResponse] = await Promise.all([
+        axios.get('http://localhost:8082/tags/all'),
+        axios.get('http://localhost:8082/tags/approved'),
+        axios.get('http://localhost:8082/tags/upvotes')
+      ]);
+      
+      setTagSuggestions(tagsResponse.data.suggestions || []);
+      setApprovedTags(approvedResponse.data.tags || []);
+      setTagUpvotes(upvotesResponse.data.upvotes || []);
       
       // Generate recent activity for admin dashboard
       generateRecentActivity();
     } catch (error: any) {
       console.error('Failed to load data:', error);
       setError('Failed to load data');
+    } finally {
+      if (showRefreshIndicator) {
+        setIsRefreshing(false);
+      }
     }
   };
 
@@ -292,25 +312,29 @@ const App: React.FC = () => {
   };
 
   const handleSuggestTag = async (imageId: string) => {
-    if (!newTagText.trim() || !user) return;
+    if (!newTagText.trim() || !user) {
+      return;
+    }
 
     setSuggestingTag(true);
     try {
-      // Simulate API call
-      const newSuggestion: TagSuggestion = {
-        id: `sug-${Date.now()}`,
+      // Call backend API
+      const response = await axios.post('http://localhost:8082/tags/suggest', {
         image_id: imageId,
         tag: newTagText.trim(),
-        suggested_by: user.username,
-        suggested_at: new Date().toISOString(),
-        status: 'pending',
-        reviewed_by: null,
-        reviewed_at: null
-      };
+        suggested_by: user.username
+      });
 
-      setTagSuggestions(prev => [...prev, newSuggestion]);
-      setNewTagText('');
+      if (response.data.success) {
+        // Reload data from backend to get updated state
+        await loadData();
+        setNewTagText('');
+        setError('');
+      } else {
+        setError('Failed to suggest tag');
+      }
     } catch (error: any) {
+      console.error('Error suggesting tag:', error);
       setError('Failed to suggest tag');
     } finally {
       setSuggestingTag(false);
@@ -320,30 +344,23 @@ const App: React.FC = () => {
   const handleUpvoteTag = async (tagId: string) => {
     if (!user) return;
 
-    // Check if user already upvoted this tag
-    const existingUpvote = tagUpvotes.find(upvote => 
-      upvote.tag_id === tagId && upvote.user_id === user.username
-    );
-
-    if (existingUpvote) {
-      // Remove upvote
-      setTagUpvotes(prev => prev.filter(upvote => upvote.id !== existingUpvote.id));
-      setApprovedTags(prev => prev.map(tag => 
-        tag.id === tagId ? { ...tag, upvotes: Math.max(0, tag.upvotes - 1) } : tag
-      ));
-    } else {
-      // Add upvote
-      const newUpvote: TagUpvote = {
-        id: `upvote-${Date.now()}`,
+    try {
+      // Call backend API to upvote/unupvote tag
+      const response = await axios.post('http://localhost:8082/tags/upvote', {
         tag_id: tagId,
-        user_id: user.username,
-        upvoted_at: new Date().toISOString()
-      };
+        user_id: user.username
+      });
 
-      setTagUpvotes(prev => [...prev, newUpvote]);
-      setApprovedTags(prev => prev.map(tag => 
-        tag.id === tagId ? { ...tag, upvotes: tag.upvotes + 1 } : tag
-      ));
+      if (response.data.success) {
+        // Reload data from backend to get updated state
+        await loadData();
+        setError('');
+      } else {
+        setError('Failed to upvote tag');
+      }
+    } catch (error: any) {
+      console.error('Error upvoting tag:', error);
+      setError('Failed to upvote tag');
     }
   };
 
@@ -353,34 +370,49 @@ const App: React.FC = () => {
     const suggestion = tagSuggestions.find(s => s.id === suggestionId);
     if (!suggestion) return;
 
-    // Update suggestion status
-    setTagSuggestions(prev => prev.map(s => 
-      s.id === suggestionId 
-        ? { ...s, status: 'approved', reviewed_by: user.username, reviewed_at: new Date().toISOString() }
-        : s
-    ));
+    try {
+      // Call backend API to approve tag
+      const response = await axios.post('http://localhost:8082/tags/review', {
+        suggestion_id: suggestionId,
+        status: 'approved',
+        reviewed_by: user.username
+      });
 
-    // Add to approved tags
-    const newApprovedTag: ApprovedTag = {
-      id: `tag-${Date.now()}`,
-      image_id: suggestion.image_id,
-      tag: suggestion.tag,
-      approved_by: user.username,
-      approved_at: new Date().toISOString(),
-      upvotes: 0
-    };
-
-    setApprovedTags(prev => [...prev, newApprovedTag]);
+      if (response.data.success) {
+        // Reload data from backend to get updated state
+        await loadData();
+        setError('');
+      } else {
+        setError('Failed to approve tag');
+      }
+    } catch (error: any) {
+      console.error('Error approving tag:', error);
+      setError('Failed to approve tag');
+    }
   };
 
   const handleRejectTag = async (suggestionId: string) => {
     if (!user || user.role !== 'admin') return;
 
-    setTagSuggestions(prev => prev.map(s => 
-      s.id === suggestionId 
-        ? { ...s, status: 'rejected', reviewed_by: user.username, reviewed_at: new Date().toISOString() }
-        : s
-    ));
+    try {
+      // Call backend API to reject tag
+      const response = await axios.post('http://localhost:8082/tags/review', {
+        suggestion_id: suggestionId,
+        status: 'rejected',
+        reviewed_by: user.username
+      });
+
+      if (response.data.success) {
+        // Reload data from backend to get updated state
+        await loadData();
+        setError('');
+      } else {
+        setError('Failed to reject tag');
+      }
+    } catch (error: any) {
+      console.error('Error rejecting tag:', error);
+      setError('Failed to reject tag');
+    }
   };
 
   // Group management functions
@@ -419,16 +451,12 @@ const App: React.FC = () => {
       return;
     }
 
-    console.log('Adding user to group:', { groupId: selectedGroupForUser, username: newUserName.trim() });
-
     setAddingUser(true);
     try {
       const response = await axios.post('http://localhost:8082/groups/add-user', {
         group_id: selectedGroupForUser,
         username: newUserName.trim()
       });
-
-      console.log('Add user response:', response.data);
 
       if (response.data.success) {
         setError('');
@@ -457,15 +485,11 @@ const App: React.FC = () => {
   };
 
   const handleRemoveUserFromGroup = async (groupId: string, username: string) => {
-    console.log('Removing user from group:', { groupId, username });
-    
     try {
       const response = await axios.post('http://localhost:8082/groups/remove-user', {
         group_id: groupId,
         username: username
           });
-      
-      console.log('Remove user response:', response.data);
           
           if (response.data.success) {
         setError('');
@@ -590,11 +614,13 @@ const App: React.FC = () => {
       
       if (response.data.success) {
         setError('');
-        // Refresh group data
-        const updatedGroupImages = groupImages.filter(img => img.id !== imageId);
-        setGroupImages(updatedGroupImages);
-        // Also refresh main images list
-        loadData();
+        // Refresh all data from backend
+        await loadData();
+        // Also refresh group images if we're on group detail page
+        if (selectedGroupDetail) {
+          const updatedGroupImages = images.filter(img => img.group_id === selectedGroupDetail.id);
+          setGroupImages(updatedGroupImages);
+        }
       } else {
         setError(response.data.error || 'Failed to delete image');
       }
@@ -617,9 +643,6 @@ const App: React.FC = () => {
       formData.append('group_id', selectedGroupDetail.id);
       formData.append('uploaded_by', user.username);
 
-      console.log('Uploading to group:', selectedGroupDetail.id);
-      console.log('Uploaded by:', user.username);
-      console.log('File:', uploadGroupFile.name);
 
       const response = await axios.post('http://localhost:8082/upload', formData, {
         headers: {
@@ -1615,14 +1638,11 @@ const App: React.FC = () => {
                     <button
                       className="add-member-btn"
                       onClick={async () => {
-                        console.log('Add member button clicked');
                         setSelectedGroupForUser(selectedGroupDetail.id);
                         setShowAddUserModal(true);
                         // Load available users
                         try {
-                          console.log('Loading users from backend...');
                           const response = await axios.get('http://localhost:8082/users');
-                          console.log('Users loaded:', response.data);
                           setAvailableUsers(response.data);
                         } catch (error) {
                           console.error('Failed to load users:', error);
@@ -1958,7 +1978,7 @@ const App: React.FC = () => {
 
   return (
     <div className="tags-view">
-      <h2>Manage Tags</h2>
+      <h2>{user?.role === 'admin' ? 'Manage Tags' : 'View Tags'}</h2>
       
             {/* Pending Suggestions */}
         <div className="tags-section">
@@ -1974,9 +1994,7 @@ const App: React.FC = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            console.log('Image clicked:', image);
                             if (image) {
-                              console.log('Setting selected image and opening modal');
                               setSelectedImage(image);
                               setShowImageModal(true);
                             }
@@ -1999,9 +2017,7 @@ const App: React.FC = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              console.log('View button clicked:', image);
                               if (image) {
-                                console.log('Opening modal from button');
                                 setSelectedImage(image);
                                 setShowImageModal(true);
                               }
@@ -2017,6 +2033,7 @@ const App: React.FC = () => {
                             Suggested by {suggestion.suggested_by} • {new Date(suggestion.suggested_at).toLocaleDateString()}
         </div>
                         </div>
+                        {user?.role === 'admin' && (
                         <div className="suggestion-actions-minimal">
                   <button 
                             className="action-btn approve-minimal"
@@ -2033,6 +2050,7 @@ const App: React.FC = () => {
                     ✗
                   </button>
                 </div>
+                        )}
               </div>
                     );
                   })}
@@ -2264,14 +2282,15 @@ const App: React.FC = () => {
         <div className="main-content sidebar-open">
           <div className="content-header">
             <div className="header-top">
-              <h1 className="page-title">
-                {currentView === 'dashboard' && 'Dashboard'}
-                {currentView === 'gallery' && 'Image Gallery'}
-                {currentView === 'upload' && 'Upload Images'}
-                {currentView === 'groups' && 'Manage Groups'}
-                {currentView === 'tags' && 'Manage Tags'}
-                {currentView === 'tag-review' && 'Tag Review'}
-              </h1>
+            <h1 className="page-title">
+              {currentView === 'dashboard' && 'Dashboard'}
+              {currentView === 'gallery' && 'Image Gallery'}
+              {currentView === 'upload' && 'Upload Images'}
+              {currentView === 'groups' && 'Manage Groups'}
+                {currentView === 'tags' && (user?.role === 'admin' ? 'Manage Tags' : 'View Tags')}
+              {currentView === 'tag-review' && 'Tag Review'}
+                {isRefreshing && <span className="refresh-indicator">🔄</span>}
+            </h1>
               
               {/* Search Bar - Only in Gallery */}
               {currentView === 'gallery' && (
