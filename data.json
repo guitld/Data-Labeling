@@ -10,8 +10,8 @@
         "admin",
         "alice",
         "bob",
-        "charlie",
-        "diana"
+        "diana",
+        "charlie"
       ]
     },
     "group-005": {
@@ -87,14 +87,6 @@
       "group_id": "group-004",
       "uploaded_at": "2024-01-15T12:55:00Z",
       "uploaded_by": "eve"
-    },
-    "4eff9554-39e2-442f-b8a8-8455a142c825": {
-      "id": "4eff9554-39e2-442f-b8a8-8455a142c825",
-      "filename": "1758647305285_pexels-pixabay-47547.jpg",
-      "original_name": "pexels-pixabay-47547.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2025-09-23T17:08:25.295732991+00:00",
-      "uploaded_by": "admin"
     },
     "img-010": {
       "id": "img-010",
@@ -239,14 +231,6 @@
       "group_id": "group-001",
       "uploaded_at": "2024-01-15T10:40:00Z",
       "uploaded_by": "eve"
-    },
-    "a8b61bdb-59d9-4255-a84c-e0e3c366b42b": {
-      "id": "a8b61bdb-59d9-4255-a84c-e0e3c366b42b",
-      "filename": "1758638973933_praia.jpg",
-      "original_name": "praia.jpg",
-      "group_id": "group-004",
-      "uploaded_at": "2025-09-23T14:49:34.047120903+00:00",
-      "uploaded_by": "admin"
     },
     "img-035": {
       "id": "img-035",
@@ -524,9 +508,9 @@
       "tag": "italiana",
       "suggested_by": "diana",
       "suggested_at": "2024-01-15T13:00:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:34.889175744+00:00"
     },
     "sug-015": {
       "id": "sug-015",
@@ -554,9 +538,9 @@
       "tag": "doce",
       "suggested_by": "frank",
       "suggested_at": "2024-01-15T12:40:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "rejected",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:37.085476650+00:00"
     },
     "3fc86ce9-a6bf-4983-a49f-8748757d56a9": {
       "id": "3fc86ce9-a6bf-4983-a49f-8748757d56a9",
@@ -564,9 +548,9 @@
       "tag": "test",
       "suggested_by": "bob",
       "suggested_at": "2025-09-22T22:30:11.466932759+00:00",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:44.376010786+00:00"
     },
     "sug-029": {
       "id": "sug-029",
@@ -574,9 +558,9 @@
       "tag": "mesa",
       "suggested_by": "eve",
       "suggested_at": "2024-01-15T14:25:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:49.040077548+00:00"
     },
     "sug-032": {
       "id": "sug-032",
@@ -604,9 +588,9 @@
       "tag": "café",
       "suggested_by": "alice",
       "suggested_at": "2024-01-15T12:45:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:53.100877924+00:00"
     },
     "sug-017": {
       "id": "sug-017",
@@ -624,9 +608,9 @@
       "tag": "mobília",
       "suggested_by": "frank",
       "suggested_at": "2024-01-15T14:30:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:49.629897005+00:00"
     },
     "sug-019": {
       "id": "sug-019",
@@ -654,9 +638,9 @@
       "tag": "iluminação",
       "suggested_by": "diana",
       "suggested_at": "2024-01-15T14:20:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:54.240523767+00:00"
     },
     "sug-002": {
       "id": "sug-002",
@@ -664,9 +648,9 @@
       "tag": "grande",
       "suggested_by": "bob",
       "suggested_at": "2024-01-15T10:40:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:50.099194201+00:00"
     },
     "sug-008": {
       "id": "sug-008",
@@ -694,9 +678,9 @@
       "tag": "bebida",
       "suggested_by": "bob",
       "suggested_at": "2024-01-15T12:50:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:53.483155463+00:00"
     },
     "sug-027": {
       "id": "sug-027",
@@ -704,9 +688,9 @@
       "tag": "lâmpada",
       "suggested_by": "charlie",
       "suggested_at": "2024-01-15T14:15:00Z",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:50.542215378+00:00"
     },
     "sug-011": {
       "id": "sug-011",
@@ -728,25 +712,25 @@
       "reviewed_by": "admin",
       "reviewed_at": "2025-09-23T14:52:14.763352630+00:00"
     },
+    "0967d6de-19e1-468d-a7f4-48c5cd8c3820": {
+      "id": "0967d6de-19e1-468d-a7f4-48c5cd8c3820",
+      "image_id": "img-027",
+      "tag": "bola",
+      "suggested_by": "admin",
+      "suggested_at": "2025-09-23T17:27:59.583431471+00:00",
+      "status": "rejected",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T17:28:02.722611256+00:00"
+    },
     "ae47e047-afa1-4925-87f8-ec0b2b55e79c": {
       "id": "ae47e047-afa1-4925-87f8-ec0b2b55e79c",
       "image_id": "img-010",
       "tag": "zebra",
       "suggested_by": "alice",
       "suggested_at": "2025-09-22T22:44:01.985579386+00:00",
-      "status": "pending",
-      "reviewed_by": null,
-      "reviewed_at": null
-    },
-    "cf4b7664-cbaf-4391-a8ec-c7d7144444bd": {
-      "id": "cf4b7664-cbaf-4391-a8ec-c7d7144444bd",
-      "image_id": "a8b61bdb-59d9-4255-a84c-e0e3c366b42b",
-      "tag": "rio",
-      "suggested_by": "alice",
-      "suggested_at": "2025-09-23T14:50:12.785319401+00:00",
-      "status": "rejected",
+      "status": "approved",
       "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:50:21.226403659+00:00"
+      "reviewed_at": "2025-09-23T17:28:55.029951263+00:00"
     },
     "sug-001": {
       "id": "sug-001",
@@ -778,6 +762,30 @@
       "approved_at": "2025-09-23T17:08:41.144070624+00:00",
       "upvotes": 0
     },
+    "ad07ebd4-500a-48f6-9bc4-801b48f7907d": {
+      "id": "ad07ebd4-500a-48f6-9bc4-801b48f7907d",
+      "image_id": "img-039",
+      "tag": "lâmpada",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:50.542234580+00:00",
+      "upvotes": 0
+    },
+    "bf389591-7b78-4d35-9da8-b6ffba3b7c18": {
+      "id": "bf389591-7b78-4d35-9da8-b6ffba3b7c18",
+      "image_id": "img-025",
+      "tag": "café",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:53.100901935+00:00",
+      "upvotes": 0
+    },
+    "4389a24e-44c9-46c0-9a5b-4242f754f32b": {
+      "id": "4389a24e-44c9-46c0-9a5b-4242f754f32b",
+      "image_id": "img-025",
+      "tag": "bebida",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:53.483175439+00:00",
+      "upvotes": 0
+    },
     "2644ca54-0eaa-4421-93a0-ced4e906e232": {
       "id": "2644ca54-0eaa-4421-93a0-ced4e906e232",
       "image_id": "img-014",
@@ -802,6 +810,14 @@
       "approved_at": "2025-09-23T00:15:56.159056844+00:00",
       "upvotes": 0
     },
+    "478ac9bc-2c78-4531-938c-fd1351f221a8": {
+      "id": "478ac9bc-2c78-4531-938c-fd1351f221a8",
+      "image_id": "img-010",
+      "tag": "zebra",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:55.029984452+00:00",
+      "upvotes": 0
+    },
     "341e7c26-5a50-49a0-a3dd-e918b26698b1": {
       "id": "341e7c26-5a50-49a0-a3dd-e918b26698b1",
       "image_id": "img-035",
@@ -818,6 +834,14 @@
       "approved_at": "2025-09-23T17:08:04.481553377+00:00",
       "upvotes": 0
     },
+    "f1f9ed2e-75d1-46a4-8399-2215f3bcd5c3": {
+      "id": "f1f9ed2e-75d1-46a4-8399-2215f3bcd5c3",
+      "image_id": "img-004",
+      "tag": "grande",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:50.099226632+00:00",
+      "upvotes": 0
+    },
     "tag-001": {
       "id": "tag-001",
       "image_id": "img-001",
@@ -825,6 +849,22 @@
       "approved_by": "admin",
       "approved_at": "2024-01-15T10:30:00Z",
       "upvotes": 5
+    },
+    "30521a43-cab1-47d3-b20f-6d241d4f0ecb": {
+      "id": "30521a43-cab1-47d3-b20f-6d241d4f0ecb",
+      "image_id": "img-026",
+      "tag": "italiana",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:34.889192074+00:00",
+      "upvotes": 0
+    },
+    "4ac3e1da-bf14-4a67-aa04-be6c23bbb010": {
+      "id": "4ac3e1da-bf14-4a67-aa04-be6c23bbb010",
+      "image_id": "img-039",
+      "tag": "iluminação",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:54.240545775+00:00",
+      "upvotes": 0
     },
     "1d69f8c0-b8f7-4dc0-a752-597913178bbc": {
       "id": "1d69f8c0-b8f7-4dc0-a752-597913178bbc",
@@ -850,6 +890,22 @@
       "approved_at": "2024-01-15T10:55:00Z",
       "upvotes": 7
     },
+    "d9c4c03c-9f82-452c-af9d-38eb1c077652": {
+      "id": "d9c4c03c-9f82-452c-af9d-38eb1c077652",
+      "image_id": "test",
+      "tag": "test",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:44.376027466+00:00",
+      "upvotes": 0
+    },
+    "d67a5ad4-27db-4926-a66e-ed8cf2c4ca86": {
+      "id": "d67a5ad4-27db-4926-a66e-ed8cf2c4ca86",
+      "image_id": "img-040",
+      "tag": "mesa",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:49.040102257+00:00",
+      "upvotes": 0
+    },
     "tag-010": {
       "id": "tag-010",
       "image_id": "img-021",
@@ -857,6 +913,14 @@
       "approved_by": "admin",
       "approved_at": "2024-01-15T12:30:00Z",
       "upvotes": 5
+    },
+    "6410df85-dc96-489c-9e4f-239a04cb3cb3": {
+      "id": "6410df85-dc96-489c-9e4f-239a04cb3cb3",
+      "image_id": "img-040",
+      "tag": "mobília",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T17:28:49.629912945+00:00",
+      "upvotes": 0
     },
     "48a8ac71-f434-41ed-9957-d56664a61c31": {
       "id": "48a8ac71-f434-41ed-9957-d56664a61c31",
@@ -888,7 +952,7 @@
       "tag": "fotografia",
       "approved_by": "admin",
       "approved_at": "2024-01-15T13:10:00Z",
-      "upvotes": 9
+      "upvotes": 10
     },
     "b868a126-24b0-4d7d-a945-e1bb6cb95cf1": {
       "id": "b868a126-24b0-4d7d-a945-e1bb6cb95cf1",
@@ -1063,6 +1127,12 @@
       "tag_id": "tag-001",
       "user_id": "alice",
       "upvoted_at": "2024-01-15T10:35:00Z"
+    },
+    "cc70ad1a-08e0-4893-a9b4-6656a9e10e83": {
+      "id": "cc70ad1a-08e0-4893-a9b4-6656a9e10e83",
+      "tag_id": "tag-014",
+      "user_id": "admin",
+      "upvoted_at": "2025-09-23T17:32:45.367607007+00:00"
     },
     "upvote-008": {
       "id": "upvote-008",
