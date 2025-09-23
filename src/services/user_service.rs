@@ -40,6 +40,16 @@ impl UserService {
             "diana123".to_string(),
             "user".to_string(),
         ));
+        users.insert("eve".to_string(), User::new(
+            "eve".to_string(),
+            "eve123".to_string(),
+            "user".to_string(),
+        ));
+        users.insert("frank".to_string(), User::new(
+            "frank".to_string(),
+            "frank123".to_string(),
+            "user".to_string(),
+        ));
 
         Self { users }
     }

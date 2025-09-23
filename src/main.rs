@@ -1,5 +1,6 @@
 use actix_web::{web, App, HttpServer, middleware::Logger};
 use actix_cors::Cors;
+use actix_files as fs;
 use std::sync::Mutex;
 
 mod models;
@@ -9,6 +10,9 @@ mod handlers;
 use services::{UserService, DataService};
 use handlers::{
     login, protected_route, admin_only_route, get_users_endpoint,
+    get_groups, create_group, add_user_to_group, remove_user_from_group, update_group, delete_group,
+    upload_image, get_user_images, delete_image,
+    suggest_tag, review_tag, upvote_tag, get_all_tags, get_approved_tags, get_tag_upvotes,
 };
 
 // Inicializar uploads directory
@@ -54,12 +58,34 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::default())
             .app_data(user_service.clone())
             .app_data(data_service.clone())
+            // Serve static files from uploads directory
+            .service(fs::Files::new("/uploads", "./uploads").show_files_listing())
             // Auth routes
             .route("/login", web::post().to(login))
             .route("/protected", web::get().to(protected_route))
             .route("/admin", web::get().to(admin_only_route))
             .route("/users", web::get().to(get_users_endpoint))
-            // TODO: Add other routes as we refactor them
+            
+            // Group routes
+            .route("/groups", web::get().to(get_groups))
+            .route("/groups", web::post().to(create_group))
+            .route("/groups/add-user", web::post().to(add_user_to_group))
+            .route("/groups/remove-user", web::post().to(remove_user_from_group))
+            .route("/groups/update", web::post().to(update_group))
+            .route("/groups/delete", web::post().to(delete_group))
+            
+            // Image routes
+            .route("/upload", web::post().to(upload_image))
+            .route("/images/{username}", web::get().to(get_user_images))
+            .route("/images/delete/{image_id}", web::delete().to(delete_image))
+            
+            // Tag routes
+            .route("/tags/suggest", web::post().to(suggest_tag))
+            .route("/tags/review", web::post().to(review_tag))
+            .route("/tags/upvote", web::post().to(upvote_tag))
+            .route("/tags/all", web::get().to(get_all_tags))
+            .route("/tags/approved", web::get().to(get_approved_tags))
+            .route("/tags/upvotes", web::get().to(get_tag_upvotes))
     })
     .bind("127.0.0.1:8082")?
     .run()
