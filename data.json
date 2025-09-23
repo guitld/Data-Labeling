@@ -1,67 +1,5 @@
 {
   "groups": {
-    "group-002": {
-      "id": "group-002",
-      "name": "Veículos",
-      "description": "Carros, motos, caminhões e outros meios de transporte",
-      "created_at": "2024-01-15T10:05:00Z",
-      "created_by": "admin",
-      "members": [
-        "admin",
-        "alice",
-        "bob",
-        "diana",
-        "charlie"
-      ]
-    },
-    "group-005": {
-      "id": "group-005",
-      "name": "Objetos",
-      "description": "Itens do dia a dia, móveis e utensílios",
-      "created_at": "2024-01-15T10:20:00Z",
-      "created_by": "admin",
-      "members": [
-        "admin",
-        "alice",
-        "bob",
-        "charlie",
-        "diana",
-        "eve",
-        "frank"
-      ]
-    },
-    "group-003": {
-      "id": "group-003",
-      "name": "Comida",
-      "description": "Pratos, restaurantes, receitas e gastronomia",
-      "created_at": "2024-01-15T10:10:00Z",
-      "created_by": "admin",
-      "members": [
-        "admin",
-        "alice",
-        "bob",
-        "charlie",
-        "diana",
-        "eve",
-        "frank"
-      ]
-    },
-    "group-004": {
-      "id": "group-004",
-      "name": "Tecnologia",
-      "description": "Gadgets, eletrônicos, computadores e inovação",
-      "created_at": "2024-01-15T10:15:00Z",
-      "created_by": "admin",
-      "members": [
-        "admin",
-        "alice",
-        "bob",
-        "charlie",
-        "diana",
-        "eve",
-        "frank"
-      ]
-    },
     "group-001": {
       "id": "group-001",
       "name": "Animais",
@@ -71,29 +9,81 @@
       "members": [
         "admin",
         "alice",
-        "bob",
-        "charlie",
-        "diana",
-        "eve",
-        "frank"
+        "bob"
+      ]
+    },
+    "group-003": {
+      "id": "group-003",
+      "name": "Comida",
+      "description": "Alimentos, bebidas e refeições",
+      "created_at": "2024-01-15T10:10:00Z",
+      "created_by": "admin",
+      "members": [
+        "admin",
+        "alice",
+        "bob"
+      ]
+    },
+    "group-005": {
+      "id": "group-005",
+      "name": "Música",
+      "description": "Instrumentos musicais e equipamentos de áudio",
+      "created_at": "2024-01-15T10:20:00Z",
+      "created_by": "admin",
+      "members": [
+        "admin",
+        "alice",
+        "bob"
+      ]
+    },
+    "group-004": {
+      "id": "group-004",
+      "name": "Tecnologia",
+      "description": "Gadgets, eletrônicos e equipamentos tecnológicos",
+      "created_at": "2024-01-15T10:15:00Z",
+      "created_by": "admin",
+      "members": [
+        "admin",
+        "alice",
+        "bob"
+      ]
+    },
+    "group-002": {
+      "id": "group-002",
+      "name": "Veículos",
+      "description": "Carros, motos, aviões e outros meios de transporte",
+      "created_at": "2024-01-15T10:05:00Z",
+      "created_by": "admin",
+      "members": [
+        "admin",
+        "alice",
+        "bob"
       ]
     }
   },
   "images": {
-    "img-027": {
-      "id": "img-027",
-      "filename": "camera.jpg",
-      "original_name": "camera.jpg",
-      "group_id": "group-004",
-      "uploaded_at": "2024-01-15T12:55:00Z",
-      "uploaded_by": "eve"
-    },
     "img-010": {
       "id": "img-010",
       "filename": "zebra.jpg",
       "original_name": "zebra.jpg",
       "group_id": "group-001",
-      "uploaded_at": "2024-01-15T11:00:00Z",
+      "uploaded_at": "2024-01-15T10:39:00Z",
+      "uploaded_by": "admin"
+    },
+    "img-003": {
+      "id": "img-003",
+      "filename": "dog.jpg",
+      "original_name": "dog.jpg",
+      "group_id": "group-001",
+      "uploaded_at": "2024-01-15T10:32:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-033": {
+      "id": "img-033",
+      "filename": "headphones.jpg",
+      "original_name": "headphones.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T11:02:00Z",
       "uploaded_by": "bob"
     },
     "img-016": {
@@ -101,7 +91,95 @@
       "filename": "motorcycle.jpg",
       "original_name": "motorcycle.jpg",
       "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:40:00Z",
+      "uploaded_at": "2024-01-15T10:45:00Z",
+      "uploaded_by": "admin"
+    },
+    "img-022": {
+      "id": "img-022",
+      "filename": "banana.jpg",
+      "original_name": "banana.jpg",
+      "group_id": "group-003",
+      "uploaded_at": "2024-01-15T10:51:00Z",
+      "uploaded_by": "admin"
+    },
+    "img-032": {
+      "id": "img-032",
+      "filename": "clock.jpg",
+      "original_name": "clock.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T11:01:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-009": {
+      "id": "img-009",
+      "filename": "tiger.jfif",
+      "original_name": "tiger.jfif",
+      "group_id": "group-001",
+      "uploaded_at": "2024-01-15T10:38:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-015": {
+      "id": "img-015",
+      "filename": "helicopter.jpg",
+      "original_name": "helicopter.jpg",
+      "group_id": "group-002",
+      "uploaded_at": "2024-01-15T10:44:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-036": {
+      "id": "img-036",
+      "filename": "phone.jpg",
+      "original_name": "phone.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T11:05:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-039": {
+      "id": "img-039",
+      "filename": "drum.jpg",
+      "original_name": "drum.jpg",
+      "group_id": "group-005",
+      "uploaded_at": "2024-01-15T11:08:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-018": {
+      "id": "img-018",
+      "filename": "submarine.jpg",
+      "original_name": "submarine.jpg",
+      "group_id": "group-002",
+      "uploaded_at": "2024-01-15T10:47:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-027": {
+      "id": "img-027",
+      "filename": "pizza.jpg",
+      "original_name": "pizza.jpg",
+      "group_id": "group-003",
+      "uploaded_at": "2024-01-15T10:56:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-034": {
+      "id": "img-034",
+      "filename": "lamp.jpg",
+      "original_name": "lamp.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T11:03:00Z",
+      "uploaded_by": "admin"
+    },
+    "img-037": {
+      "id": "img-037",
+      "filename": "table.jfif",
+      "original_name": "table.jfif",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T11:06:00Z",
+      "uploaded_by": "admin"
+    },
+    "img-029": {
+      "id": "img-029",
+      "filename": "book.jpg",
+      "original_name": "book.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T10:58:00Z",
       "uploaded_by": "alice"
     },
     "img-012": {
@@ -109,95 +187,63 @@
       "filename": "bicycle.jpg",
       "original_name": "bicycle.jpg",
       "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:20:00Z",
-      "uploaded_by": "diana"
+      "uploaded_at": "2024-01-15T10:41:00Z",
+      "uploaded_by": "bob"
     },
-    "img-037": {
-      "id": "img-037",
-      "filename": "drum.jpg",
-      "original_name": "drum.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T13:55:00Z",
-      "uploaded_by": "alice"
+    "img-031": {
+      "id": "img-031",
+      "filename": "chair.jpg",
+      "original_name": "chair.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T11:00:00Z",
+      "uploaded_by": "admin"
     },
-    "img-034": {
-      "id": "img-034",
-      "filename": "bottle.jpg",
-      "original_name": "bottle.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T13:40:00Z",
-      "uploaded_by": "eve"
-    },
-    "img-007": {
-      "id": "img-007",
-      "filename": "lion.jpg",
-      "original_name": "lion.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:45:00Z",
-      "uploaded_by": "frank"
-    },
-    "img-040": {
-      "id": "img-040",
-      "filename": "table.jpg",
-      "original_name": "table.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T14:10:00Z",
-      "uploaded_by": "diana"
-    },
-    "img-013": {
-      "id": "img-013",
-      "filename": "bus.jpg",
-      "original_name": "bus.jpg",
-      "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:25:00Z",
-      "uploaded_by": "eve"
+    "img-025": {
+      "id": "img-025",
+      "filename": "cake.jpg",
+      "original_name": "cake.jpg",
+      "group_id": "group-003",
+      "uploaded_at": "2024-01-15T10:54:00Z",
+      "uploaded_by": "admin"
     },
     "img-021": {
       "id": "img-021",
       "filename": "apple.jpg",
       "original_name": "apple.jpg",
       "group_id": "group-003",
-      "uploaded_at": "2024-01-15T12:15:00Z",
-      "uploaded_by": "frank"
+      "uploaded_at": "2024-01-15T10:50:00Z",
+      "uploaded_by": "bob"
     },
-    "img-014": {
-      "id": "img-014",
-      "filename": "car.jpg",
-      "original_name": "car.jpg",
+    "img-011": {
+      "id": "img-011",
+      "filename": "airplane.jfif",
+      "original_name": "airplane.jfif",
       "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:30:00Z",
-      "uploaded_by": "frank"
-    },
-    "img-023": {
-      "id": "img-023",
-      "filename": "burger.jpg",
-      "original_name": "burger.jpg",
-      "group_id": "group-003",
-      "uploaded_at": "2024-01-15T12:25:00Z",
+      "uploaded_at": "2024-01-15T10:40:00Z",
       "uploaded_by": "alice"
     },
-    "img-018": {
-      "id": "img-018",
-      "filename": "submarine.jpg",
-      "original_name": "submarine.jpg",
+    "img-038": {
+      "id": "img-038",
+      "filename": "watch.jpg",
+      "original_name": "watch.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T11:07:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-007": {
+      "id": "img-007",
+      "filename": "lion.jpg",
+      "original_name": "lion.jpg",
+      "group_id": "group-001",
+      "uploaded_at": "2024-01-15T10:36:00Z",
+      "uploaded_by": "admin"
+    },
+    "img-013": {
+      "id": "img-013",
+      "filename": "bus.jpg",
+      "original_name": "bus.jpg",
       "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:50:00Z",
-      "uploaded_by": "charlie"
-    },
-    "img-025": {
-      "id": "img-025",
-      "filename": "coffee.jpg",
-      "original_name": "coffee.jpg",
-      "group_id": "group-003",
-      "uploaded_at": "2024-01-15T12:35:00Z",
-      "uploaded_by": "charlie"
-    },
-    "img-022": {
-      "id": "img-022",
-      "filename": "banana.jpg",
-      "original_name": "banana.jpg",
-      "group_id": "group-003",
-      "uploaded_at": "2024-01-15T12:20:00Z",
+      "uploaded_at": "2024-01-15T10:42:00Z",
       "uploaded_by": "admin"
     },
     "img-019": {
@@ -205,1018 +251,690 @@
       "filename": "train.jpg",
       "original_name": "train.jpg",
       "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:55:00Z",
-      "uploaded_by": "diana"
+      "uploaded_at": "2024-01-15T10:48:00Z",
+      "uploaded_by": "admin"
     },
-    "img-033": {
-      "id": "img-033",
-      "filename": "book.jpg",
-      "original_name": "book.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T13:35:00Z",
-      "uploaded_by": "diana"
-    },
-    "img-039": {
-      "id": "img-039",
-      "filename": "lamp.jpg",
-      "original_name": "lamp.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T14:05:00Z",
-      "uploaded_by": "charlie"
-    },
-    "img-006": {
-      "id": "img-006",
-      "filename": "horse.jpg",
-      "original_name": "horse.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:40:00Z",
-      "uploaded_by": "eve"
-    },
-    "img-035": {
-      "id": "img-035",
-      "filename": "chair.jpg",
-      "original_name": "chair.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T13:45:00Z",
-      "uploaded_by": "frank"
-    },
-    "img-002": {
-      "id": "img-002",
-      "filename": "cat.jpg",
-      "original_name": "cat.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:20:00Z",
+    "img-023": {
+      "id": "img-023",
+      "filename": "bottle.jpg",
+      "original_name": "bottle.jpg",
+      "group_id": "group-003",
+      "uploaded_at": "2024-01-15T10:52:00Z",
       "uploaded_by": "alice"
     },
-    "img-031": {
-      "id": "img-031",
-      "filename": "watch.jpg",
-      "original_name": "watch.jpg",
+    "img-008": {
+      "id": "img-008",
+      "filename": "panda.jfif",
+      "original_name": "panda.jfif",
+      "group_id": "group-001",
+      "uploaded_at": "2024-01-15T10:37:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-030": {
+      "id": "img-030",
+      "filename": "camera.jpg",
+      "original_name": "camera.jpg",
       "group_id": "group-004",
-      "uploaded_at": "2024-01-15T13:15:00Z",
+      "uploaded_at": "2024-01-15T10:59:00Z",
       "uploaded_by": "bob"
     },
-    "img-028": {
-      "id": "img-028",
-      "filename": "headphones.jpg",
-      "original_name": "headphones.jpg",
-      "group_id": "group-004",
-      "uploaded_at": "2024-01-15T13:00:00Z",
-      "uploaded_by": "frank"
-    },
-    "img-038": {
-      "id": "img-038",
-      "filename": "guitar.jpg",
-      "original_name": "guitar.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T14:00:00Z",
-      "uploaded_by": "bob"
-    },
-    "img-004": {
-      "id": "img-004",
-      "filename": "elephant.jpg",
-      "original_name": "elephant.jpg",
+    "img-001": {
+      "id": "img-001",
+      "filename": "bear.jfif",
+      "original_name": "bear.jfif",
       "group_id": "group-001",
       "uploaded_at": "2024-01-15T10:30:00Z",
-      "uploaded_by": "charlie"
-    },
-    "img-009": {
-      "id": "img-009",
-      "filename": "tiger.jpg",
-      "original_name": "tiger.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:55:00Z",
-      "uploaded_by": "alice"
-    },
-    "img-026": {
-      "id": "img-026",
-      "filename": "pizza.jpg",
-      "original_name": "pizza.jpg",
-      "group_id": "group-003",
-      "uploaded_at": "2024-01-15T12:40:00Z",
-      "uploaded_by": "diana"
-    },
-    "img-017": {
-      "id": "img-017",
-      "filename": "ship.jpg",
-      "original_name": "ship.jpg",
-      "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:45:00Z",
-      "uploaded_by": "bob"
+      "uploaded_by": "admin"
     },
     "img-005": {
       "id": "img-005",
       "filename": "giraffe.jpg",
       "original_name": "giraffe.jpg",
       "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:35:00Z",
-      "uploaded_by": "diana"
-    },
-    "img-020": {
-      "id": "img-020",
-      "filename": "truck.jpg",
-      "original_name": "truck.jpg",
-      "group_id": "group-002",
-      "uploaded_at": "2024-01-15T12:00:00Z",
-      "uploaded_by": "eve"
-    },
-    "img-032": {
-      "id": "img-032",
-      "filename": "backpack.jpg",
-      "original_name": "backpack.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T13:30:00Z",
-      "uploaded_by": "charlie"
-    },
-    "img-024": {
-      "id": "img-024",
-      "filename": "cake.jpg",
-      "original_name": "cake.jpg",
-      "group_id": "group-003",
-      "uploaded_at": "2024-01-15T12:30:00Z",
-      "uploaded_by": "bob"
-    },
-    "img-011": {
-      "id": "img-011",
-      "filename": "airplane.jpg",
-      "original_name": "airplane.jpg",
-      "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:15:00Z",
-      "uploaded_by": "charlie"
-    },
-    "img-003": {
-      "id": "img-003",
-      "filename": "dog.jpg",
-      "original_name": "dog.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:25:00Z",
-      "uploaded_by": "bob"
-    },
-    "img-036": {
-      "id": "img-036",
-      "filename": "clock.jpg",
-      "original_name": "clock.jpg",
-      "group_id": "group-005",
-      "uploaded_at": "2024-01-15T13:50:00Z",
-      "uploaded_by": "admin"
-    },
-    "img-001": {
-      "id": "img-001",
-      "filename": "bear.jpg",
-      "original_name": "bear.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:15:00Z",
-      "uploaded_by": "admin"
-    },
-    "img-008": {
-      "id": "img-008",
-      "filename": "panda.jpg",
-      "original_name": "panda.jpg",
-      "group_id": "group-001",
-      "uploaded_at": "2024-01-15T10:50:00Z",
-      "uploaded_by": "admin"
-    },
-    "img-030": {
-      "id": "img-030",
-      "filename": "phone.jpg",
-      "original_name": "phone.jpg",
-      "group_id": "group-004",
-      "uploaded_at": "2024-01-15T13:10:00Z",
+      "uploaded_at": "2024-01-15T10:34:00Z",
       "uploaded_by": "alice"
     },
-    "img-029": {
-      "id": "img-029",
+    "img-040": {
+      "id": "img-040",
+      "filename": "guitar.jpg",
+      "original_name": "guitar.jpg",
+      "group_id": "group-005",
+      "uploaded_at": "2024-01-15T11:09:00Z",
+      "uploaded_by": "admin"
+    },
+    "img-002": {
+      "id": "img-002",
+      "filename": "cat.jpg",
+      "original_name": "cat.jpg",
+      "group_id": "group-001",
+      "uploaded_at": "2024-01-15T10:31:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-035": {
+      "id": "img-035",
       "filename": "laptop.jpg",
       "original_name": "laptop.jpg",
       "group_id": "group-004",
-      "uploaded_at": "2024-01-15T13:05:00Z",
+      "uploaded_at": "2024-01-15T11:04:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-026": {
+      "id": "img-026",
+      "filename": "coffee.jpg",
+      "original_name": "coffee.jpg",
+      "group_id": "group-003",
+      "uploaded_at": "2024-01-15T10:55:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-006": {
+      "id": "img-006",
+      "filename": "horse.jpg",
+      "original_name": "horse.jpg",
+      "group_id": "group-001",
+      "uploaded_at": "2024-01-15T10:35:00Z",
+      "uploaded_by": "bob"
+    },
+    "img-017": {
+      "id": "img-017",
+      "filename": "ship.jfif",
+      "original_name": "ship.jfif",
+      "group_id": "group-002",
+      "uploaded_at": "2024-01-15T10:46:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-004": {
+      "id": "img-004",
+      "filename": "elephant.jpg",
+      "original_name": "elephant.jpg",
+      "group_id": "group-001",
+      "uploaded_at": "2024-01-15T10:33:00Z",
       "uploaded_by": "admin"
     },
-    "img-015": {
-      "id": "img-015",
-      "filename": "helicopter.jpg",
-      "original_name": "helicopter.jpg",
+    "img-014": {
+      "id": "img-014",
+      "filename": "car.jpg",
+      "original_name": "car.jpg",
       "group_id": "group-002",
-      "uploaded_at": "2024-01-15T11:35:00Z",
+      "uploaded_at": "2024-01-15T10:43:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-020": {
+      "id": "img-020",
+      "filename": "truck.jfif",
+      "original_name": "truck.jfif",
+      "group_id": "group-002",
+      "uploaded_at": "2024-01-15T10:49:00Z",
+      "uploaded_by": "alice"
+    },
+    "img-028": {
+      "id": "img-028",
+      "filename": "backpack.jpg",
+      "original_name": "backpack.jpg",
+      "group_id": "group-004",
+      "uploaded_at": "2024-01-15T10:57:00Z",
       "uploaded_by": "admin"
+    },
+    "img-024": {
+      "id": "img-024",
+      "filename": "burger.jpg",
+      "original_name": "burger.jpg",
+      "group_id": "group-003",
+      "uploaded_at": "2024-01-15T10:53:00Z",
+      "uploaded_by": "bob"
     }
   },
   "tag_suggestions": {
-    "sug-005": {
-      "id": "sug-005",
-      "image_id": "img-012",
-      "tag": "bicicleta",
-      "suggested_by": "eve",
-      "suggested_at": "2024-01-15T11:25:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:52:20.241917581+00:00"
-    },
-    "sug-020": {
-      "id": "sug-020",
-      "image_id": "img-030",
-      "tag": "celular",
-      "suggested_by": "bob",
-      "suggested_at": "2024-01-15T13:25:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-22T22:50:04.530587155+00:00"
-    },
-    "sug-009": {
-      "id": "sug-009",
-      "image_id": "img-022",
-      "tag": "banana",
-      "suggested_by": "charlie",
-      "suggested_at": "2024-01-15T12:25:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T00:15:09.843815136+00:00"
-    },
-    "sug-004": {
-      "id": "sug-004",
-      "image_id": "img-005",
-      "tag": "alto",
-      "suggested_by": "diana",
-      "suggested_at": "2024-01-15T10:50:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:08:41.144037794+00:00"
-    },
-    "sug-010": {
-      "id": "sug-010",
-      "image_id": "img-022",
-      "tag": "amarelo",
-      "suggested_by": "diana",
-      "suggested_at": "2024-01-15T12:30:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-22T22:46:02.693996497+00:00"
-    },
-    "sug-026": {
-      "id": "sug-026",
-      "image_id": "img-037",
-      "tag": "instrumento",
-      "suggested_by": "bob",
-      "suggested_at": "2024-01-15T14:10:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T00:15:56.159013932+00:00"
-    },
-    "sug-003": {
-      "id": "sug-003",
-      "image_id": "img-005",
-      "tag": "girafa",
-      "suggested_by": "charlie",
-      "suggested_at": "2024-01-15T10:45:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:08:44.382447432+00:00"
-    },
-    "sug-007": {
-      "id": "sug-007",
-      "image_id": "img-014",
-      "tag": "carro",
-      "suggested_by": "alice",
-      "suggested_at": "2024-01-15T11:35:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:48:19.339861095+00:00"
-    },
-    "sug-022": {
-      "id": "sug-022",
-      "image_id": "img-033",
-      "tag": "leitura",
-      "suggested_by": "diana",
-      "suggested_at": "2024-01-15T13:50:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:52:13.565168489+00:00"
-    },
-    "sug-006": {
-      "id": "sug-006",
-      "image_id": "img-012",
-      "tag": "ecológico",
-      "suggested_by": "frank",
-      "suggested_at": "2024-01-15T11:30:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:52:22.763858725+00:00"
-    },
-    "sug-016": {
-      "id": "sug-016",
-      "image_id": "img-026",
-      "tag": "italiana",
-      "suggested_by": "diana",
-      "suggested_at": "2024-01-15T13:00:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:34.889175744+00:00"
-    },
-    "sug-015": {
-      "id": "sug-015",
-      "image_id": "img-026",
-      "tag": "pizza",
-      "suggested_by": "charlie",
-      "suggested_at": "2024-01-15T12:55:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:08:45.899719046+00:00"
-    },
-    "sug-024": {
-      "id": "sug-024",
-      "image_id": "img-035",
-      "tag": "móvel",
-      "suggested_by": "frank",
-      "suggested_at": "2024-01-15T14:00:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T00:15:53.246411342+00:00"
-    },
-    "sug-012": {
-      "id": "sug-012",
-      "image_id": "img-024",
-      "tag": "doce",
-      "suggested_by": "frank",
-      "suggested_at": "2024-01-15T12:40:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:37.085476650+00:00"
-    },
-    "3fc86ce9-a6bf-4983-a49f-8748757d56a9": {
-      "id": "3fc86ce9-a6bf-4983-a49f-8748757d56a9",
-      "image_id": "test",
-      "tag": "test",
-      "suggested_by": "bob",
-      "suggested_at": "2025-09-22T22:30:11.466932759+00:00",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:44.376010786+00:00"
-    },
-    "sug-029": {
-      "id": "sug-029",
-      "image_id": "img-040",
-      "tag": "mesa",
-      "suggested_by": "eve",
-      "suggested_at": "2024-01-15T14:25:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:49.040077548+00:00"
-    },
-    "sug-032": {
-      "id": "sug-032",
-      "image_id": "img-002",
-      "tag": "pet",
-      "suggested_by": "bob",
-      "suggested_at": "2024-01-15T10:30:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2024-01-15T10:35:00Z"
-    },
-    "sug-031": {
-      "id": "sug-031",
+    "sug-002": {
+      "id": "sug-002",
       "image_id": "img-001",
-      "tag": "animal",
-      "suggested_by": "alice",
-      "suggested_at": "2024-01-15T10:20:00Z",
-      "status": "rejected",
+      "tag": "animal selvagem",
+      "suggested_by": "bob",
+      "suggested_at": "2024-01-15T11:11:00Z",
+      "status": "approved",
       "reviewed_by": "admin",
-      "reviewed_at": "2024-01-15T10:25:00Z"
+      "reviewed_at": "2025-09-23T20:45:21.401641241+00:00"
     },
     "sug-013": {
       "id": "sug-013",
-      "image_id": "img-025",
-      "tag": "café",
-      "suggested_by": "alice",
-      "suggested_at": "2024-01-15T12:45:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:53.100877924+00:00"
-    },
-    "sug-017": {
-      "id": "sug-017",
-      "image_id": "img-028",
-      "tag": "fones",
-      "suggested_by": "eve",
-      "suggested_at": "2024-01-15T13:10:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:52:00.862639840+00:00"
-    },
-    "sug-030": {
-      "id": "sug-030",
-      "image_id": "img-040",
-      "tag": "mobília",
-      "suggested_by": "frank",
-      "suggested_at": "2024-01-15T14:30:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:49.629897005+00:00"
-    },
-    "sug-019": {
-      "id": "sug-019",
-      "image_id": "img-030",
-      "tag": "telefone",
-      "suggested_by": "alice",
-      "suggested_at": "2024-01-15T13:20:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-22T22:50:02.827720364+00:00"
-    },
-    "sug-023": {
-      "id": "sug-023",
-      "image_id": "img-035",
-      "tag": "cadeira",
-      "suggested_by": "eve",
-      "suggested_at": "2024-01-15T13:55:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T00:15:54.783558731+00:00"
-    },
-    "sug-028": {
-      "id": "sug-028",
-      "image_id": "img-039",
-      "tag": "iluminação",
-      "suggested_by": "diana",
-      "suggested_at": "2024-01-15T14:20:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:54.240523767+00:00"
-    },
-    "sug-002": {
-      "id": "sug-002",
-      "image_id": "img-004",
-      "tag": "grande",
-      "suggested_by": "bob",
-      "suggested_at": "2024-01-15T10:40:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:50.099194201+00:00"
-    },
-    "sug-008": {
-      "id": "sug-008",
-      "image_id": "img-014",
-      "tag": "automóvel",
+      "image_id": "img-027",
+      "tag": "pizza",
       "suggested_by": "bob",
       "suggested_at": "2024-01-15T11:40:00Z",
       "status": "approved",
       "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:48:17.673213103+00:00"
+      "reviewed_at": "2024-01-15T11:45:00Z"
     },
-    "sug-018": {
-      "id": "sug-018",
-      "image_id": "img-028",
-      "tag": "áudio",
-      "suggested_by": "frank",
-      "suggested_at": "2024-01-15T13:15:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:51:59.587479051+00:00"
-    },
-    "sug-014": {
-      "id": "sug-014",
-      "image_id": "img-025",
-      "tag": "bebida",
-      "suggested_by": "bob",
-      "suggested_at": "2024-01-15T12:50:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:53.483155463+00:00"
-    },
-    "sug-027": {
-      "id": "sug-027",
-      "image_id": "img-039",
-      "tag": "lâmpada",
-      "suggested_by": "charlie",
-      "suggested_at": "2024-01-15T14:15:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:50.542215378+00:00"
-    },
-    "sug-011": {
-      "id": "sug-011",
-      "image_id": "img-024",
-      "tag": "bolo",
-      "suggested_by": "eve",
-      "suggested_at": "2024-01-15T12:35:00Z",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:52:06.493470481+00:00"
-    },
-    "sug-021": {
-      "id": "sug-021",
-      "image_id": "img-033",
-      "tag": "livro",
-      "suggested_by": "charlie",
-      "suggested_at": "2024-01-15T13:45:00Z",
-      "status": "approved",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T14:52:14.763352630+00:00"
-    },
-    "0967d6de-19e1-468d-a7f4-48c5cd8c3820": {
-      "id": "0967d6de-19e1-468d-a7f4-48c5cd8c3820",
-      "image_id": "img-027",
-      "tag": "bola",
+    "sug-003": {
+      "id": "sug-003",
+      "image_id": "img-002",
+      "tag": "gato",
       "suggested_by": "admin",
-      "suggested_at": "2025-09-23T17:27:59.583431471+00:00",
-      "status": "rejected",
-      "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:02.722611256+00:00"
-    },
-    "ae47e047-afa1-4925-87f8-ec0b2b55e79c": {
-      "id": "ae47e047-afa1-4925-87f8-ec0b2b55e79c",
-      "image_id": "img-010",
-      "tag": "zebra",
-      "suggested_by": "alice",
-      "suggested_at": "2025-09-22T22:44:01.985579386+00:00",
+      "suggested_at": "2024-01-15T11:12:00Z",
       "status": "approved",
       "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:28:55.029951263+00:00"
+      "reviewed_at": "2024-01-15T11:16:00Z"
     },
     "sug-001": {
       "id": "sug-001",
-      "image_id": "img-004",
-      "tag": "elefante",
+      "image_id": "img-001",
+      "tag": "urso",
       "suggested_by": "alice",
-      "suggested_at": "2024-01-15T10:35:00Z",
+      "suggested_at": "2024-01-15T11:10:00Z",
       "status": "approved",
       "reviewed_by": "admin",
-      "reviewed_at": "2025-09-22T22:45:19.081267113+00:00"
+      "reviewed_at": "2024-01-15T11:15:00Z"
     },
-    "sug-025": {
-      "id": "sug-025",
-      "image_id": "img-037",
-      "tag": "bateria",
-      "suggested_by": "alice",
-      "suggested_at": "2024-01-15T14:05:00Z",
+    "sug-005": {
+      "id": "sug-005",
+      "image_id": "img-003",
+      "tag": "cachorro",
+      "suggested_by": "bob",
+      "suggested_at": "2024-01-15T11:14:00Z",
       "status": "approved",
       "reviewed_by": "admin",
-      "reviewed_at": "2025-09-23T17:08:04.480694504+00:00"
+      "reviewed_at": "2024-01-15T11:18:00Z"
+    },
+    "sug-016": {
+      "id": "sug-016",
+      "image_id": "img-029",
+      "tag": "livro",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T11:51:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:56:00Z"
+    },
+    "sug-019": {
+      "id": "sug-019",
+      "image_id": "img-035",
+      "tag": "laptop",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T12:00:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T12:05:00Z"
+    },
+    "sug-004": {
+      "id": "sug-004",
+      "image_id": "img-002",
+      "tag": "felino",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T11:13:00Z",
+      "status": "rejected",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:17:00Z"
+    },
+    "sug-014": {
+      "id": "sug-014",
+      "image_id": "img-027",
+      "tag": "comida italiana",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T11:41:00Z",
+      "status": "rejected",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:46:00Z"
+    },
+    "sug-009": {
+      "id": "sug-009",
+      "image_id": "img-013",
+      "tag": "ônibus",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T11:23:00Z",
+      "status": "rejected",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:27:00Z"
+    },
+    "sug-007": {
+      "id": "sug-007",
+      "image_id": "img-011",
+      "tag": "transporte aéreo",
+      "suggested_by": "bob",
+      "suggested_at": "2024-01-15T11:21:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T20:45:31.107251169+00:00"
+    },
+    "sug-012": {
+      "id": "sug-012",
+      "image_id": "img-022",
+      "tag": "banana",
+      "suggested_by": "admin",
+      "suggested_at": "2024-01-15T11:32:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:36:00Z"
+    },
+    "sug-015": {
+      "id": "sug-015",
+      "image_id": "img-028",
+      "tag": "mochila",
+      "suggested_by": "admin",
+      "suggested_at": "2024-01-15T11:50:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:55:00Z"
+    },
+    "sug-006": {
+      "id": "sug-006",
+      "image_id": "img-011",
+      "tag": "avião",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T11:20:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:25:00Z"
+    },
+    "sug-010": {
+      "id": "sug-010",
+      "image_id": "img-021",
+      "tag": "maçã",
+      "suggested_by": "bob",
+      "suggested_at": "2024-01-15T11:30:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:35:00Z"
+    },
+    "sug-011": {
+      "id": "sug-011",
+      "image_id": "img-021",
+      "tag": "fruta",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T11:31:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T20:31:36.775350835+00:00"
+    },
+    "sug-017": {
+      "id": "sug-017",
+      "image_id": "img-029",
+      "tag": "leitura",
+      "suggested_by": "bob",
+      "suggested_at": "2024-01-15T11:52:00Z",
+      "status": "rejected",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T20:45:23.302391445+00:00"
+    },
+    "sug-018": {
+      "id": "sug-018",
+      "image_id": "img-030",
+      "tag": "câmera",
+      "suggested_by": "admin",
+      "suggested_at": "2024-01-15T11:53:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:57:00Z"
+    },
+    "sug-020": {
+      "id": "sug-020",
+      "image_id": "img-035",
+      "tag": "computador",
+      "suggested_by": "bob",
+      "suggested_at": "2024-01-15T12:01:00Z",
+      "status": "rejected",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T12:06:00Z"
+    },
+    "sug-021": {
+      "id": "sug-021",
+      "image_id": "img-039",
+      "tag": "bateria",
+      "suggested_by": "admin",
+      "suggested_at": "2024-01-15T12:10:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T12:15:00Z"
+    },
+    "sug-023": {
+      "id": "sug-023",
+      "image_id": "img-040",
+      "tag": "instrumento musical",
+      "suggested_by": "bob",
+      "suggested_at": "2024-01-15T12:12:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T20:45:35.165217635+00:00"
+    },
+    "sug-008": {
+      "id": "sug-008",
+      "image_id": "img-012",
+      "tag": "bicicleta",
+      "suggested_by": "admin",
+      "suggested_at": "2024-01-15T11:22:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T11:26:00Z"
+    },
+    "c8bd8d06-ca16-4d19-ab72-06f9a9b16a9b": {
+      "id": "c8bd8d06-ca16-4d19-ab72-06f9a9b16a9b",
+      "image_id": "img-034",
+      "tag": "lâmpada",
+      "suggested_by": "admin",
+      "suggested_at": "2025-09-23T20:44:43.096457307+00:00",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2025-09-23T20:45:25.755103301+00:00"
+    },
+    "sug-022": {
+      "id": "sug-022",
+      "image_id": "img-040",
+      "tag": "guitarra",
+      "suggested_by": "alice",
+      "suggested_at": "2024-01-15T12:11:00Z",
+      "status": "approved",
+      "reviewed_by": "admin",
+      "reviewed_at": "2024-01-15T12:16:00Z"
     }
   },
   "approved_tags": {
-    "c6032a0e-9e62-490c-bf06-9c7c626fb87e": {
-      "id": "c6032a0e-9e62-490c-bf06-9c7c626fb87e",
-      "image_id": "img-005",
-      "tag": "alto",
+    "tag-002": {
+      "id": "tag-002",
+      "image_id": "img-002",
+      "tag": "gato",
       "approved_by": "admin",
-      "approved_at": "2025-09-23T17:08:41.144070624+00:00",
-      "upvotes": 0
+      "approved_at": "2024-01-15T11:16:00Z",
+      "upvotes": 1
     },
-    "ad07ebd4-500a-48f6-9bc4-801b48f7907d": {
-      "id": "ad07ebd4-500a-48f6-9bc4-801b48f7907d",
+    "tag-013": {
+      "id": "tag-013",
       "image_id": "img-039",
-      "tag": "lâmpada",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:50.542234580+00:00",
-      "upvotes": 0
-    },
-    "bf389591-7b78-4d35-9da8-b6ffba3b7c18": {
-      "id": "bf389591-7b78-4d35-9da8-b6ffba3b7c18",
-      "image_id": "img-025",
-      "tag": "café",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:53.100901935+00:00",
-      "upvotes": 0
-    },
-    "4389a24e-44c9-46c0-9a5b-4242f754f32b": {
-      "id": "4389a24e-44c9-46c0-9a5b-4242f754f32b",
-      "image_id": "img-025",
-      "tag": "bebida",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:53.483175439+00:00",
-      "upvotes": 0
-    },
-    "2644ca54-0eaa-4421-93a0-ced4e906e232": {
-      "id": "2644ca54-0eaa-4421-93a0-ced4e906e232",
-      "image_id": "img-014",
-      "tag": "automóvel",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T14:48:17.673240480+00:00",
-      "upvotes": 2
-    },
-    "tag-016": {
-      "id": "tag-016",
-      "image_id": "img-029",
-      "tag": "computador",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T13:20:00Z",
-      "upvotes": 6
-    },
-    "333a5c9c-1ec6-4c25-a9cd-3d27a3e638cd": {
-      "id": "333a5c9c-1ec6-4c25-a9cd-3d27a3e638cd",
-      "image_id": "img-037",
-      "tag": "instrumento",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T00:15:56.159056844+00:00",
-      "upvotes": 0
-    },
-    "478ac9bc-2c78-4531-938c-fd1351f221a8": {
-      "id": "478ac9bc-2c78-4531-938c-fd1351f221a8",
-      "image_id": "img-010",
-      "tag": "zebra",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:55.029984452+00:00",
-      "upvotes": 0
-    },
-    "341e7c26-5a50-49a0-a3dd-e918b26698b1": {
-      "id": "341e7c26-5a50-49a0-a3dd-e918b26698b1",
-      "image_id": "img-035",
-      "tag": "móvel",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T00:15:53.246433706+00:00",
-      "upvotes": 0
-    },
-    "1414d82d-878b-4b30-bb3e-f40dabd1d608": {
-      "id": "1414d82d-878b-4b30-bb3e-f40dabd1d608",
-      "image_id": "img-037",
       "tag": "bateria",
       "approved_by": "admin",
-      "approved_at": "2025-09-23T17:08:04.481553377+00:00",
-      "upvotes": 0
-    },
-    "f1f9ed2e-75d1-46a4-8399-2215f3bcd5c3": {
-      "id": "f1f9ed2e-75d1-46a4-8399-2215f3bcd5c3",
-      "image_id": "img-004",
-      "tag": "grande",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:50.099226632+00:00",
-      "upvotes": 0
+      "approved_at": "2024-01-15T12:15:00Z",
+      "upvotes": 1
     },
     "tag-001": {
       "id": "tag-001",
       "image_id": "img-001",
       "tag": "urso",
       "approved_by": "admin",
-      "approved_at": "2024-01-15T10:30:00Z",
-      "upvotes": 5
+      "approved_at": "2024-01-15T11:15:00Z",
+      "upvotes": 2
     },
-    "30521a43-cab1-47d3-b20f-6d241d4f0ecb": {
-      "id": "30521a43-cab1-47d3-b20f-6d241d4f0ecb",
-      "image_id": "img-026",
-      "tag": "italiana",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:34.889192074+00:00",
-      "upvotes": 0
-    },
-    "4ac3e1da-bf14-4a67-aa04-be6c23bbb010": {
-      "id": "4ac3e1da-bf14-4a67-aa04-be6c23bbb010",
-      "image_id": "img-039",
-      "tag": "iluminação",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:54.240545775+00:00",
-      "upvotes": 0
-    },
-    "1d69f8c0-b8f7-4dc0-a752-597913178bbc": {
-      "id": "1d69f8c0-b8f7-4dc0-a752-597913178bbc",
+    "tag-007": {
+      "id": "tag-007",
       "image_id": "img-022",
       "tag": "banana",
       "approved_by": "admin",
-      "approved_at": "2025-09-23T00:15:09.845443335+00:00",
-      "upvotes": 0
-    },
-    "tag-017": {
-      "id": "tag-017",
-      "image_id": "img-032",
-      "tag": "mochila",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T13:40:00Z",
-      "upvotes": 4
-    },
-    "tag-006": {
-      "id": "tag-006",
-      "image_id": "img-003",
-      "tag": "leal",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T10:55:00Z",
-      "upvotes": 7
-    },
-    "d9c4c03c-9f82-452c-af9d-38eb1c077652": {
-      "id": "d9c4c03c-9f82-452c-af9d-38eb1c077652",
-      "image_id": "test",
-      "tag": "test",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:44.376027466+00:00",
-      "upvotes": 0
-    },
-    "d67a5ad4-27db-4926-a66e-ed8cf2c4ca86": {
-      "id": "d67a5ad4-27db-4926-a66e-ed8cf2c4ca86",
-      "image_id": "img-040",
-      "tag": "mesa",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:49.040102257+00:00",
-      "upvotes": 0
+      "approved_at": "2024-01-15T11:36:00Z",
+      "upvotes": 2
     },
     "tag-010": {
       "id": "tag-010",
-      "image_id": "img-021",
-      "tag": "fruta",
+      "image_id": "img-029",
+      "tag": "livro",
       "approved_by": "admin",
-      "approved_at": "2024-01-15T12:30:00Z",
-      "upvotes": 5
+      "approved_at": "2024-01-15T11:56:00Z",
+      "upvotes": 2
     },
-    "6410df85-dc96-489c-9e4f-239a04cb3cb3": {
-      "id": "6410df85-dc96-489c-9e4f-239a04cb3cb3",
-      "image_id": "img-040",
-      "tag": "mobília",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:28:49.629912945+00:00",
-      "upvotes": 0
-    },
-    "48a8ac71-f434-41ed-9957-d56664a61c31": {
-      "id": "48a8ac71-f434-41ed-9957-d56664a61c31",
-      "image_id": "img-012",
-      "tag": "bicicleta",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T14:52:20.241934665+00:00",
-      "upvotes": 0
-    },
-    "4650d84b-1b71-44dd-a1b2-dcbcae081201": {
-      "id": "4650d84b-1b71-44dd-a1b2-dcbcae081201",
-      "image_id": "img-022",
-      "tag": "amarelo",
-      "approved_by": "admin",
-      "approved_at": "2025-09-22T22:46:02.694412430+00:00",
-      "upvotes": 1
-    },
-    "tag-018": {
-      "id": "tag-018",
-      "image_id": "img-032",
-      "tag": "acessório",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T13:45:00Z",
-      "upvotes": 3
-    },
-    "tag-014": {
-      "id": "tag-014",
+    "tag-008": {
+      "id": "tag-008",
       "image_id": "img-027",
-      "tag": "fotografia",
+      "tag": "pizza",
       "approved_by": "admin",
-      "approved_at": "2024-01-15T13:10:00Z",
-      "upvotes": 10
-    },
-    "b868a126-24b0-4d7d-a945-e1bb6cb95cf1": {
-      "id": "b868a126-24b0-4d7d-a945-e1bb6cb95cf1",
-      "image_id": "img-005",
-      "tag": "girafa",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T17:08:44.382469063+00:00",
-      "upvotes": 0
+      "approved_at": "2024-01-15T11:45:00Z",
+      "upvotes": 4
     },
     "tag-011": {
       "id": "tag-011",
-      "image_id": "img-023",
-      "tag": "hambúrguer",
+      "image_id": "img-030",
+      "tag": "câmera",
       "approved_by": "admin",
-      "approved_at": "2024-01-15T12:35:00Z",
-      "upvotes": 11
+      "approved_at": "2024-01-15T11:57:00Z",
+      "upvotes": 1
     },
-    "1a20cd51-e8ce-462f-a853-46c1fc5881db": {
-      "id": "1a20cd51-e8ce-462f-a853-46c1fc5881db",
-      "image_id": "img-014",
-      "tag": "carro",
+    "tag-006": {
+      "id": "tag-006",
+      "image_id": "img-021",
+      "tag": "maçã",
       "approved_by": "admin",
-      "approved_at": "2025-09-23T14:48:19.339886358+00:00",
-      "upvotes": 0
-    },
-    "tag-015": {
-      "id": "tag-015",
-      "image_id": "img-029",
-      "tag": "laptop",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T13:15:00Z",
-      "upvotes": 13
-    },
-    "tag-019": {
-      "id": "tag-019",
-      "image_id": "img-038",
-      "tag": "guitarra",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T14:10:00Z",
-      "upvotes": 10
-    },
-    "tag-003": {
-      "id": "tag-003",
-      "image_id": "img-002",
-      "tag": "gato",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T10:40:00Z",
-      "upvotes": 12
-    },
-    "8c99a435-8a72-4d48-a318-e9aa99eb2ec1": {
-      "id": "8c99a435-8a72-4d48-a318-e9aa99eb2ec1",
-      "image_id": "img-004",
-      "tag": "elefante",
-      "approved_by": "admin",
-      "approved_at": "2025-09-22T22:45:19.081294314+00:00",
-      "upvotes": 0
+      "approved_at": "2024-01-15T11:35:00Z",
+      "upvotes": 1
     },
     "tag-004": {
       "id": "tag-004",
-      "image_id": "img-002",
-      "tag": "fofo",
+      "image_id": "img-011",
+      "tag": "avião",
       "approved_by": "admin",
-      "approved_at": "2024-01-15T10:45:00Z",
-      "upvotes": 15
+      "approved_at": "2024-01-15T11:25:00Z",
+      "upvotes": 1
     },
-    "dd857c66-72d6-4395-aea4-ea7ff5426fce": {
-      "id": "dd857c66-72d6-4395-aea4-ea7ff5426fce",
-      "image_id": "img-030",
-      "tag": "telefone",
+    "tag-003": {
+      "id": "tag-003",
+      "image_id": "img-003",
+      "tag": "cachorro",
       "approved_by": "admin",
-      "approved_at": "2025-09-22T22:50:02.828166369+00:00",
+      "approved_at": "2024-01-15T11:18:00Z",
+      "upvotes": 3
+    },
+    "tag-009": {
+      "id": "tag-009",
+      "image_id": "img-028",
+      "tag": "mochila",
+      "approved_by": "admin",
+      "approved_at": "2024-01-15T11:55:00Z",
+      "upvotes": 1
+    },
+    "tag-014": {
+      "id": "tag-014",
+      "image_id": "img-040",
+      "tag": "guitarra",
+      "approved_by": "admin",
+      "approved_at": "2024-01-15T12:16:00Z",
+      "upvotes": 2
+    },
+    "48f69d5b-a9ef-44b0-9c4d-cd6aba2d1795": {
+      "id": "48f69d5b-a9ef-44b0-9c4d-cd6aba2d1795",
+      "image_id": "img-001",
+      "tag": "animal selvagem",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T20:45:21.401697244+00:00",
+      "upvotes": 0
+    },
+    "d42387b5-ddda-4ca9-85e4-d2965939afcf": {
+      "id": "d42387b5-ddda-4ca9-85e4-d2965939afcf",
+      "image_id": "img-034",
+      "tag": "lâmpada",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T20:45:25.755129412+00:00",
+      "upvotes": 0
+    },
+    "d8375964-4b18-4a5f-8da1-03dcbbd2894b": {
+      "id": "d8375964-4b18-4a5f-8da1-03dcbbd2894b",
+      "image_id": "img-040",
+      "tag": "instrumento musical",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T20:45:35.165234956+00:00",
+      "upvotes": 0
+    },
+    "d24ee764-2f2f-4ddc-87d6-7b680f0648d0": {
+      "id": "d24ee764-2f2f-4ddc-87d6-7b680f0648d0",
+      "image_id": "img-011",
+      "tag": "transporte aéreo",
+      "approved_by": "admin",
+      "approved_at": "2025-09-23T20:45:31.107268080+00:00",
+      "upvotes": 0
+    },
+    "tag-005": {
+      "id": "tag-005",
+      "image_id": "img-012",
+      "tag": "bicicleta",
+      "approved_by": "admin",
+      "approved_at": "2024-01-15T11:26:00Z",
       "upvotes": 2
     },
     "tag-012": {
       "id": "tag-012",
-      "image_id": "img-023",
-      "tag": "comida",
+      "image_id": "img-035",
+      "tag": "laptop",
       "approved_by": "admin",
-      "approved_at": "2024-01-15T12:40:00Z",
-      "upvotes": 8
+      "approved_at": "2024-01-15T12:05:00Z",
+      "upvotes": 3
     },
-    "tag-007": {
-      "id": "tag-007",
-      "image_id": "img-011",
-      "tag": "avião",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T11:20:00Z",
-      "upvotes": 9
-    },
-    "tag-020": {
-      "id": "tag-020",
-      "image_id": "img-038",
-      "tag": "música",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T14:15:00Z",
-      "upvotes": 8
-    },
-    "tag-002": {
-      "id": "tag-002",
-      "image_id": "img-001",
-      "tag": "selvagem",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T10:35:00Z",
-      "upvotes": 8
-    },
-    "tag-005": {
-      "id": "tag-005",
-      "image_id": "img-003",
-      "tag": "cachorro",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T10:50:00Z",
-      "upvotes": 10
-    },
-    "tag-009": {
-      "id": "tag-009",
+    "1c1c58c4-ba73-4fbd-b3fa-bcb28a3f74c1": {
+      "id": "1c1c58c4-ba73-4fbd-b3fa-bcb28a3f74c1",
       "image_id": "img-021",
-      "tag": "maçã",
+      "tag": "fruta",
       "approved_by": "admin",
-      "approved_at": "2024-01-15T12:25:00Z",
-      "upvotes": 4
-    },
-    "tag-008": {
-      "id": "tag-008",
-      "image_id": "img-011",
-      "tag": "voo",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T11:25:00Z",
-      "upvotes": 6
-    },
-    "85e75fda-3f62-4b28-b785-d0cd16e27035": {
-      "id": "85e75fda-3f62-4b28-b785-d0cd16e27035",
-      "image_id": "img-028",
-      "tag": "fones",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T14:52:00.862664414+00:00",
+      "approved_at": "2025-09-23T20:31:36.783751138+00:00",
       "upvotes": 0
-    },
-    "6880ebc2-a1f6-4393-9164-88b354d40345": {
-      "id": "6880ebc2-a1f6-4393-9164-88b354d40345",
-      "image_id": "img-033",
-      "tag": "livro",
-      "approved_by": "admin",
-      "approved_at": "2025-09-23T14:52:14.763376112+00:00",
-      "upvotes": 0
-    },
-    "f6cfd131-0601-42b4-91c5-e23ab9fc2dff": {
-      "id": "f6cfd131-0601-42b4-91c5-e23ab9fc2dff",
-      "image_id": "img-030",
-      "tag": "celular",
-      "approved_by": "admin",
-      "approved_at": "2025-09-22T22:50:04.530605518+00:00",
-      "upvotes": 1
-    },
-    "tag-013": {
-      "id": "tag-013",
-      "image_id": "img-027",
-      "tag": "câmera",
-      "approved_by": "admin",
-      "approved_at": "2024-01-15T13:05:00Z",
-      "upvotes": 7
     }
   },
   "tag_upvotes": {
-    "8a5cb103-9ace-44d9-b836-9abedb64463f": {
-      "id": "8a5cb103-9ace-44d9-b836-9abedb64463f",
-      "tag_id": "dd857c66-72d6-4395-aea4-ea7ff5426fce",
+    "upvote-002": {
+      "id": "upvote-002",
+      "tag_id": "tag-001",
       "user_id": "bob",
-      "upvoted_at": "2025-09-22T22:50:14.801687183+00:00"
+      "upvoted_at": "2024-01-15T11:21:00Z"
+    },
+    "upvote-007": {
+      "id": "upvote-007",
+      "tag_id": "tag-004",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T11:30:00Z"
+    },
+    "upvote-008": {
+      "id": "upvote-008",
+      "tag_id": "tag-005",
+      "user_id": "alice",
+      "upvoted_at": "2024-01-15T11:32:00Z"
+    },
+    "upvote-025": {
+      "id": "upvote-025",
+      "tag_id": "tag-014",
+      "user_id": "admin",
+      "upvoted_at": "2024-01-15T12:22:00Z"
+    },
+    "upvote-024": {
+      "id": "upvote-024",
+      "tag_id": "tag-013",
+      "user_id": "alice",
+      "upvoted_at": "2024-01-15T12:20:00Z"
+    },
+    "upvote-003": {
+      "id": "upvote-003",
+      "tag_id": "tag-002",
+      "user_id": "alice",
+      "upvoted_at": "2024-01-15T11:22:00Z"
+    },
+    "upvote-014": {
+      "id": "upvote-014",
+      "tag_id": "tag-008",
+      "user_id": "alice",
+      "upvoted_at": "2024-01-15T11:51:00Z"
+    },
+    "upvote-023": {
+      "id": "upvote-023",
+      "tag_id": "tag-012",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T12:12:00Z"
+    },
+    "upvote-004": {
+      "id": "upvote-004",
+      "tag_id": "tag-003",
+      "user_id": "admin",
+      "upvoted_at": "2024-01-15T11:25:00Z"
+    },
+    "upvote-010": {
+      "id": "upvote-010",
+      "tag_id": "tag-006",
+      "user_id": "admin",
+      "upvoted_at": "2024-01-15T11:40:00Z"
+    },
+    "upvote-015": {
+      "id": "upvote-015",
+      "tag_id": "tag-008",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T11:52:00Z"
+    },
+    "upvote-022": {
+      "id": "upvote-022",
+      "tag_id": "tag-012",
+      "user_id": "alice",
+      "upvoted_at": "2024-01-15T12:11:00Z"
+    },
+    "upvote-016": {
+      "id": "upvote-016",
+      "tag_id": "tag-008",
+      "user_id": "admin",
+      "upvoted_at": "2024-01-15T11:53:00Z"
+    },
+    "upvote-009": {
+      "id": "upvote-009",
+      "tag_id": "tag-005",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T11:33:00Z"
+    },
+    "upvote-011": {
+      "id": "upvote-011",
+      "tag_id": "tag-007",
+      "user_id": "alice",
+      "upvoted_at": "2024-01-15T11:42:00Z"
+    },
+    "upvote-017": {
+      "id": "upvote-017",
+      "tag_id": "tag-009",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T12:00:00Z"
+    },
+    "upvote-019": {
+      "id": "upvote-019",
+      "tag_id": "tag-010",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T12:03:00Z"
+    },
+    "upvote-013": {
+      "id": "upvote-013",
+      "tag_id": "tag-008",
+      "user_id": "admin",
+      "upvoted_at": "2024-01-15T11:50:00Z"
+    },
+    "upvote-026": {
+      "id": "upvote-026",
+      "tag_id": "tag-014",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T12:23:00Z"
     },
     "upvote-001": {
       "id": "upvote-001",
       "tag_id": "tag-001",
       "user_id": "alice",
-      "upvoted_at": "2024-01-15T10:35:00Z"
-    },
-    "cc70ad1a-08e0-4893-a9b4-6656a9e10e83": {
-      "id": "cc70ad1a-08e0-4893-a9b4-6656a9e10e83",
-      "tag_id": "tag-014",
-      "user_id": "admin",
-      "upvoted_at": "2025-09-23T17:32:45.367607007+00:00"
-    },
-    "upvote-008": {
-      "id": "upvote-008",
-      "tag_id": "tag-011",
-      "user_id": "bob",
-      "upvoted_at": "2024-01-15T12:45:00Z"
+      "upvoted_at": "2024-01-15T11:20:00Z"
     },
     "upvote-006": {
       "id": "upvote-006",
-      "tag_id": "tag-004",
-      "user_id": "frank",
-      "upvoted_at": "2024-01-15T11:00:00Z"
-    },
-    "66a75b5c-d1cd-44d7-b504-7bf7a39a2275": {
-      "id": "66a75b5c-d1cd-44d7-b504-7bf7a39a2275",
-      "tag_id": "f6cfd131-0601-42b4-91c5-e23ab9fc2dff",
-      "user_id": "bob",
-      "upvoted_at": "2025-09-22T22:50:26.593906911+00:00"
-    },
-    "upvote-003": {
-      "id": "upvote-003",
       "tag_id": "tag-003",
-      "user_id": "charlie",
-      "upvoted_at": "2024-01-15T10:45:00Z"
-    },
-    "upvote-002": {
-      "id": "upvote-002",
-      "tag_id": "tag-001",
       "user_id": "bob",
-      "upvoted_at": "2024-01-15T10:40:00Z"
+      "upvoted_at": "2024-01-15T11:27:00Z"
     },
-    "3ec7b7fe-793d-488a-87f5-329dc79119ec": {
-      "id": "3ec7b7fe-793d-488a-87f5-329dc79119ec",
-      "tag_id": "2644ca54-0eaa-4421-93a0-ced4e906e232",
+    "upvote-012": {
+      "id": "upvote-012",
+      "tag_id": "tag-007",
+      "user_id": "bob",
+      "upvoted_at": "2024-01-15T11:43:00Z"
+    },
+    "upvote-018": {
+      "id": "upvote-018",
+      "tag_id": "tag-010",
       "user_id": "alice",
-      "upvoted_at": "2025-09-23T14:48:37.059386095+00:00"
-    },
-    "70656074-6e58-4482-bc8b-134ad20e578c": {
-      "id": "70656074-6e58-4482-bc8b-134ad20e578c",
-      "tag_id": "dd857c66-72d6-4395-aea4-ea7ff5426fce",
-      "user_id": "admin",
-      "upvoted_at": "2025-09-22T22:50:22.812264076+00:00"
-    },
-    "upvote-004": {
-      "id": "upvote-004",
-      "tag_id": "tag-003",
-      "user_id": "diana",
-      "upvoted_at": "2024-01-15T10:50:00Z"
-    },
-    "1af663f0-71a6-4e2a-9d7e-c3eab1b20297": {
-      "id": "1af663f0-71a6-4e2a-9d7e-c3eab1b20297",
-      "tag_id": "2644ca54-0eaa-4421-93a0-ced4e906e232",
-      "user_id": "admin",
-      "upvoted_at": "2025-09-23T14:48:45.094732873+00:00"
-    },
-    "upvote-010": {
-      "id": "upvote-010",
-      "tag_id": "tag-015",
-      "user_id": "diana",
-      "upvoted_at": "2024-01-15T13:25:00Z"
+      "upvoted_at": "2024-01-15T12:02:00Z"
     },
     "upvote-005": {
       "id": "upvote-005",
-      "tag_id": "tag-004",
-      "user_id": "eve",
-      "upvoted_at": "2024-01-15T10:55:00Z"
-    },
-    "upvote-007": {
-      "id": "upvote-007",
-      "tag_id": "tag-011",
+      "tag_id": "tag-003",
       "user_id": "alice",
-      "upvoted_at": "2024-01-15T12:40:00Z"
+      "upvoted_at": "2024-01-15T11:26:00Z"
     },
-    "upvote-009": {
-      "id": "upvote-009",
-      "tag_id": "tag-015",
-      "user_id": "charlie",
-      "upvoted_at": "2024-01-15T13:20:00Z"
-    },
-    "e74e38fa-1f62-49e7-b13d-470930c4db0e": {
-      "id": "e74e38fa-1f62-49e7-b13d-470930c4db0e",
-      "tag_id": "4650d84b-1b71-44dd-a1b2-dcbcae081201",
+    "upvote-020": {
+      "id": "upvote-020",
+      "tag_id": "tag-011",
       "user_id": "admin",
-      "upvoted_at": "2025-09-23T00:15:11.989145397+00:00"
+      "upvoted_at": "2024-01-15T12:05:00Z"
+    },
+    "upvote-021": {
+      "id": "upvote-021",
+      "tag_id": "tag-012",
+      "user_id": "admin",
+      "upvoted_at": "2024-01-15T12:10:00Z"
     }
   }
 }

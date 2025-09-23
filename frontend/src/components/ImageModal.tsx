@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image, Group, ApprovedTag, TagSuggestion, TagUpvote, User } from '../types';
+import { openaiAPI } from '../services/api';
 
 interface ImageModalProps {
   image: Image | null;
@@ -31,6 +32,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
   suggestingTag
 }) => {
   const [newTagText, setNewTagText] = useState('');
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
   if (!image) return null;
 
@@ -51,6 +53,44 @@ const ImageModal: React.FC<ImageModalProps> = ({
     }
   };
 
+  const handleAISuggestion = async () => {
+    if (!image || !group) return;
+    
+    setIsGeneratingAI(true);
+    
+    try {
+      // Coletar tags existentes para evitar repetições
+      const approvedTagsList = imageApprovedTags.map(tag => tag.tag);
+      const rejectedTagsList = imageRejectedSuggestions.map(sug => sug.tag);
+      const pendingTagsList = imagePendingSuggestions.map(sug => sug.tag);
+      
+      const request = {
+        group_name: group.name,
+        approved_tags: approvedTagsList,
+        rejected_tags: rejectedTagsList,
+        pending_tags: pendingTagsList,
+        image_name: image.original_name,
+        image_url: `http://localhost:8082/uploads/${image.filename}`
+      };
+      
+      const response = await openaiAPI.generateTagSuggestion(request);
+      
+      if (response.success && response.suggestion) {
+        setNewTagText(response.suggestion);
+      } else {
+        console.error('AI suggestion failed:', response.error);
+        // Fallback para "teste" se a API falhar
+        setNewTagText('teste');
+      }
+    } catch (error) {
+      console.error('Error generating AI suggestion:', error);
+      // Fallback para "teste" em caso de erro
+      setNewTagText('teste');
+    } finally {
+      setIsGeneratingAI(false);
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content-new" onClick={(e) => e.stopPropagation()}>
@@ -64,7 +104,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
         <div className="modal-layout">
           <div className="modal-image-container">
             <img
-              src={`http://localhost:8082/uploads/${image.filename}`}
+              src={`http://localhost:8082/uploads/${image.filename}?t=${Date.now()}`}
               alt={image.original_name}
               className="modal-image-large"
             />
@@ -78,28 +118,56 @@ const ImageModal: React.FC<ImageModalProps> = ({
               <p><strong>Group:</strong> {group?.name || 'Unknown'}</p>
             </div>
 
-            <div className="tag-suggestion-box">
-              <h4>Suggest a Tag</h4>
-              <form onSubmit={handleSuggestTag}>
-                <div className="tag-input-group">
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={newTagText}
-                    onChange={(e) => setNewTagText(e.target.value)}
-                    placeholder="Enter tag suggestion..."
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="login-button"
-                    disabled={suggestingTag || !newTagText.trim()}
-                  >
-                    {suggestingTag ? 'Suggesting...' : 'Suggest'}
-                  </button>
+        <div className="tag-suggestion-box">
+          <h4>Suggest a Tag</h4>
+          <form onSubmit={handleSuggestTag}>
+            <div className="tag-input-row">
+              <input
+                type="text"
+                className="form-input"
+                value={newTagText}
+                onChange={(e) => setNewTagText(e.target.value)}
+                placeholder="Enter tag suggestion..."
+                required
+              />
+              <div className="ai-tooltip-container">
+                <button
+                  type="button"
+                  className={`ai-suggestion-btn-small ${isGeneratingAI ? 'loading' : ''}`}
+                  onClick={handleAISuggestion}
+                  disabled={isGeneratingAI || suggestingTag}
+                >
+                  {isGeneratingAI ? (
+                    <div className="ai-loading-spinner">
+                      <div className="spinner-dot"></div>
+                      <div className="spinner-dot"></div>
+                      <div className="spinner-dot"></div>
+                    </div>
+                  ) : (
+                    '✨'
+                  )}
+                </button>
+                <div className="ai-tooltip">
+                  <div className="ai-tooltip-content">
+                    <div className="ai-tooltip-icon">ℹ️</div>
+                    <div className="ai-tooltip-text">
+                      <strong>IA:</strong> Agora você pode somente revisar as tags geradas por IA, basta clicar no ícone.
+                    </div>
+                  </div>
                 </div>
-              </form>
+              </div>
             </div>
+            <div className="suggest-button-row">
+              <button
+                type="submit"
+                className="login-button"
+                disabled={suggestingTag || !newTagText.trim()}
+              >
+                {suggestingTag ? 'Suggesting...' : 'Suggest Tag'}
+              </button>
+            </div>
+          </form>
+        </div>
 
             <div className="all-tags-section">
               <h4>Approved Tags</h4>

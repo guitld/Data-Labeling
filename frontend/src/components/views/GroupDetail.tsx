@@ -348,6 +348,9 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
                     onChange={(e) => setUploadGroupFile(e.target.files?.[0] || null)}
                     required
                   />
+                  <small style={{ color: '#666', fontSize: '0.8rem', marginTop: '0.5rem', display: 'block' }}>
+                    Supported: JPG, JPEG, PNG, GIF, WebP, JFIF, BMP, TIFF
+                  </small>
                   {uploadGroupFile && (
                     <div className="file-preview">
                       <p><strong>Selected:</strong> {uploadGroupFile.name}</p>

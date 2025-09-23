@@ -28,7 +28,7 @@ class ErrorBoundary extends Component<Props, State> {
       return this.props.fallback || (
         <div className="error-boundary">
           <h2>Something went wrong.</h2>
-          <p>We're sorry, but something unexpected happened.</p>
+          <p>We&apos;re sorry, but something unexpected happened.</p>
           <button 
             className="login-button"
             onClick={() => window.location.reload()}

@@ -155,7 +155,7 @@ const Upload: React.FC<UploadProps> = ({
               <h4>Drop your images here</h4>
               <p>or click to browse files</p>
               <div className="supported-formats">
-                <span>Supports: JPG, PNG, GIF, WebP</span>
+                <span>Supports: JPG, JPEG, PNG, GIF, WebP, JFIF, BMP, TIFF</span>
               </div>
               <input
                 type="file"

@@ -96,6 +96,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                   )}
                 </span>
               </button>
+              
+              <button 
+                className={`nav-item ${currentView === 'chat' ? 'active' : ''}`}
+                onClick={() => onViewChange('chat')}
+              >
+                <span className="nav-icon">🤖</span>
+                <span className="nav-label">AI Insights</span>
+              </button>
             </div>
           )}
         </nav>

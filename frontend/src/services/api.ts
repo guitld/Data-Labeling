@@ -100,5 +100,18 @@ export const usersAPI = {
     api.get('/users').then(res => res.data),
 };
 
+// OpenAI API
+export const openaiAPI = {
+  generateTagSuggestion: (data: {
+    group_name: string;
+    approved_tags: string[];
+    rejected_tags: string[];
+    pending_tags: string[];
+    image_name: string;
+    image_url: string;
+  }): Promise<{ success: boolean; suggestion?: string; error?: string }> =>
+    api.post('/openai/tag-suggestion', data).then(res => res.data),
+};
+
 export default api;
 

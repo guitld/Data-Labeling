@@ -27,11 +27,11 @@ const ImageCard: React.FC<ImageCardProps> = ({
   return (
     <div className="image-item">
       <div className="image-container" onClick={() => onImageClick(image)}>
-        <img 
-          src={`http://localhost:8082/uploads/${image.filename}`} 
-          alt={image.original_name}
-          className="gallery-image"
-        />
+          <img 
+            src={`http://localhost:8082/uploads/${image.filename}?t=${Date.now()}`} 
+            alt={image.original_name}
+            className="gallery-image"
+          />
         <div className="image-overlay">
           <span className="view-icon">👁</span>
           {user?.role === 'admin' && (

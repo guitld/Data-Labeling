@@ -15,11 +15,6 @@ impl UserService {
             "admin123".to_string(),
             "admin".to_string(),
         ));
-        users.insert("user".to_string(), User::new(
-            "user".to_string(),
-            "user123".to_string(),
-            "user".to_string(),
-        ));
         users.insert("alice".to_string(), User::new(
             "alice".to_string(),
             "alice123".to_string(),
@@ -28,26 +23,6 @@ impl UserService {
         users.insert("bob".to_string(), User::new(
             "bob".to_string(),
             "bob123".to_string(),
-            "user".to_string(),
-        ));
-        users.insert("charlie".to_string(), User::new(
-            "charlie".to_string(),
-            "charlie123".to_string(),
-            "user".to_string(),
-        ));
-        users.insert("diana".to_string(), User::new(
-            "diana".to_string(),
-            "diana123".to_string(),
-            "user".to_string(),
-        ));
-        users.insert("eve".to_string(), User::new(
-            "eve".to_string(),
-            "eve123".to_string(),
-            "user".to_string(),
-        ));
-        users.insert("frank".to_string(), User::new(
-            "frank".to_string(),
-            "frank123".to_string(),
             "user".to_string(),
         ));
 

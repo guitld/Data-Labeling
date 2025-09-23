@@ -10,6 +10,7 @@ pub async fn upload_image(
     mut payload: Multipart,
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {
+    println!("📤 Starting image upload process");
     let mut filename = String::new();
     let mut original_name = String::new();
     let mut group_id = String::new();
@@ -62,6 +63,17 @@ pub async fn upload_image(
         })));
     }
 
+    // Validate file type
+    let allowed_extensions = ["jpg", "jpeg", "png", "gif", "webp", "jfif", "bmp", "tiff"];
+    let file_extension = filename.split('.').last().unwrap_or("").to_lowercase();
+    
+    if !allowed_extensions.contains(&file_extension.as_str()) {
+        return Ok(HttpResponse::BadRequest().json(serde_json::json!({
+            "success": false,
+            "error": format!("Unsupported file type. Supported formats: {}", allowed_extensions.join(", "))
+        })));
+    }
+
     // Save file to uploads directory
     let file_path = format!("uploads/{}", filename);
     if let Ok(mut file) = std::fs::File::create(&file_path) {
@@ -89,6 +101,9 @@ pub async fn upload_image(
     let mut data = data_service.lock().unwrap();
     let image_id = data.create_image(image);
     let _ = data.save_to_json();
+    
+    println!("✅ Image '{}' uploaded successfully by '{}' to group '{}' (ID: {})", 
+             original_name, uploaded_by, group_id, image_id);
 
     Ok(HttpResponse::Ok().json(serde_json::json!({
         "success": true,
@@ -102,8 +117,10 @@ pub async fn get_user_images(
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {
     let username = path.into_inner();
+    println!("🖼️ Fetching images for user: {}", username);
     let data = data_service.lock().unwrap();
     let images = data.get_user_images(&username);
+    println!("✅ Retrieved {} images for user '{}'", images.len(), username);
     
     Ok(HttpResponse::Ok().json(serde_json::json!({
         "images": images
@@ -115,26 +132,31 @@ pub async fn delete_image(
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {
     let image_id = path.into_inner();
+    println!("🗑️ Deleting image: {}", image_id);
     let mut data = data_service.lock().unwrap();
     
     if let Some(image) = data.get_image(&image_id) {
         // Delete file from filesystem
         let file_path = format!("uploads/{}", image.filename);
+        let filename = image.filename.clone();
         let _ = std::fs::remove_file(file_path);
         
         // Remove from data
         if data.delete_image(&image_id) {
+            println!("✅ Image '{}' deleted successfully", filename);
             Ok(HttpResponse::Ok().json(serde_json::json!({
                 "success": true,
                 "message": "Image deleted successfully"
             })))
         } else {
+            println!("❌ Failed to delete image '{}' from database", filename);
             Ok(HttpResponse::InternalServerError().json(serde_json::json!({
                 "success": false,
                 "error": "Failed to delete image"
             })))
         }
     } else {
+        println!("❌ Image '{}' not found", image_id);
         Ok(HttpResponse::NotFound().json(serde_json::json!({
             "success": false,
             "error": "Image not found"

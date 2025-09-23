@@ -5,6 +5,7 @@ import { useData } from './hooks/useData';
 import { imagesAPI, tagsAPI } from './services/api';
 import { Login, Sidebar, Header, ImageModal, ErrorBoundary } from './components';
 import { Dashboard, Gallery, Upload, Groups, Tags, TagReview, GroupDetail } from './components/views';
+import Chat from './components/views/Chat';
 
 const App: React.FC = () => {
   const { user, login, logout, error: authError, setError: setAuthError } = useAuth();
@@ -42,7 +43,7 @@ const App: React.FC = () => {
       }
     }
   }, [groups, selectedGroupDetail]);
-
+  
   // Force re-render when modal state changes
   const [modalKey, setModalKey] = useState(0);
   useEffect(() => {
@@ -68,7 +69,7 @@ const App: React.FC = () => {
     if (!window.confirm('Are you sure you want to delete this image?')) {
       return;
     }
-
+    
     try {
       const response = await imagesAPI.delete(imageId);
       
@@ -214,7 +215,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (currentView) {
       case 'dashboard':
-        return (
+  return (
           <Dashboard
             user={user!}
             images={images}
@@ -279,8 +280,8 @@ const App: React.FC = () => {
             onUpvoteTag={handleUpvoteTag}
             onImageClick={handleImageClick}
           />
-        );
-      
+  );
+
       case 'group-detail':
         if (!selectedGroupDetail) {
           return <div>Group not found</div>;
@@ -300,7 +301,7 @@ const App: React.FC = () => {
         );
       
       case 'tag-review':
-        return (
+          return (
           <TagReview
             tagSuggestions={tagSuggestions}
             images={images}
@@ -309,6 +310,17 @@ const App: React.FC = () => {
             onApproveTag={handleApproveTag}
             onRejectTag={handleRejectTag}
             onBackToTags={handleBackToTags}
+          />
+        );
+      
+      case 'chat':
+        return (
+          <Chat
+            groups={groups}
+            images={images}
+            tagSuggestions={tagSuggestions}
+            approvedTags={approvedTags}
+            onError={setError}
           />
         );
       
@@ -326,8 +338,8 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="app">
-        <div className="app-layout">
+    <div className="app">
+      <div className="app-layout">
           <Sidebar
             user={user}
             currentView={currentView}
@@ -335,8 +347,8 @@ const App: React.FC = () => {
             onLogout={handleLogout}
             pendingSuggestionsCount={pendingSuggestionsCount}
           />
-          
-          <div className="main-content sidebar-open">
+        
+        <div className="main-content sidebar-open">
             <Header
               currentView={currentView}
               isRefreshing={dataLoading}
@@ -345,8 +357,8 @@ const App: React.FC = () => {
               error={error}
             />
 
-            <div className="content-body">
-              {renderContent()}
+          <div className="content-body">
+            {renderContent()}
             </div>
           </div>
         </div>
@@ -368,8 +380,8 @@ const App: React.FC = () => {
             onRejectTag={handleRejectTag}
             suggestingTag={suggestingTag}
           />
-        )}
-      </div>
+                    )}
+                  </div>
     </ErrorBoundary>
   );
 };

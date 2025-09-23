@@ -48,7 +48,7 @@ export interface TagUpvote {
   upvoted_at: string;
 }
 
-export type View = 'dashboard' | 'gallery' | 'upload' | 'groups' | 'tags' | 'group-detail' | 'tag-review';
+export type View = 'dashboard' | 'gallery' | 'upload' | 'groups' | 'tags' | 'group-detail' | 'tag-review' | 'chat';
 
 export interface LoginRequest {
   username: string;

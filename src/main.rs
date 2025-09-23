@@ -13,6 +13,7 @@ use handlers::{
     get_groups, create_group, add_user_to_group, remove_user_from_group, update_group, delete_group,
     upload_image, get_user_images, delete_image,
     suggest_tag, review_tag, upvote_tag, get_all_tags, get_approved_tags, get_tag_upvotes,
+    chat_endpoint, generate_tag_suggestion,
 };
 
 // Inicializar uploads directory
@@ -23,6 +24,8 @@ fn init_uploads_dir() -> std::io::Result<()> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // Carregar variáveis de ambiente do arquivo .env
+    dotenv::dotenv().ok();
     env_logger::init();
     
     // Initialize uploads directory
@@ -86,6 +89,12 @@ async fn main() -> std::io::Result<()> {
             .route("/tags/all", web::get().to(get_all_tags))
             .route("/tags/approved", web::get().to(get_approved_tags))
             .route("/tags/upvotes", web::get().to(get_tag_upvotes))
+            
+            // Chat routes
+            .route("/chat", web::post().to(chat_endpoint))
+            
+            // OpenAI routes
+            .route("/openai/tag-suggestion", web::post().to(generate_tag_suggestion))
     })
     .bind("127.0.0.1:8082")?
     .run()

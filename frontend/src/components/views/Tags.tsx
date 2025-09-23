@@ -27,7 +27,6 @@ const Tags: React.FC<TagsProps> = ({
   onImageClick
 }) => {
   const pendingSuggestions = tagSuggestions.filter(sug => sug.status === 'pending');
-  const approvedSuggestions = tagSuggestions.filter(sug => sug.status === 'approved');
   const rejectedSuggestions = tagSuggestions.filter(sug => sug.status === 'rejected');
 
   return (
@@ -55,7 +54,7 @@ const Tags: React.FC<TagsProps> = ({
                   >
                     {image ? (
                       <img 
-                        src={`http://localhost:8082/uploads/${image.filename}`} 
+                        src={`http://localhost:8082/uploads/${image.filename}?t=${Date.now()}`} 
                         alt={image.original_name}
                         className="suggestion-preview-minimal"
                       />
@@ -137,9 +136,6 @@ const Tags: React.FC<TagsProps> = ({
               })
               .map(tag => {
                 const image = images.find(img => img.id === tag.image_id);
-                const hasUpvoted = tagUpvotes.some(upvote => 
-                  upvote.tag_id === tag.id && upvote.user_id === user?.username
-                );
                 return (
                   <div key={tag.id} className="tag-item-minimal">
                     <div className="tag-text-minimal">{tag.tag}</div>
