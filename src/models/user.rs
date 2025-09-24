@@ -14,12 +14,6 @@ pub struct LoginResponse {
     pub message: String,
 }
 
-#[derive(Debug, Serialize)]
-pub struct UserInfo {
-    pub username: String,
-    pub role: String,
-}
-
 #[derive(Debug, Clone)]
 pub struct User {
     pub username: String,

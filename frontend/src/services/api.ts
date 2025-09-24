@@ -47,51 +47,57 @@ export const groupsAPI = {
     api.post('/groups', data).then(res => res.data),
   
   addUser: (data: { group_id: string; username: string }): Promise<{ success: boolean; error?: string }> =>
-    api.post('/groups/add-user', data).then(res => res.data),
+    api.post(`/groups/${data.group_id}/members`, { username: data.username }).then(res => res.data),
   
   removeUser: (data: { group_id: string; username: string }): Promise<{ success: boolean; error?: string }> =>
-    api.post('/groups/remove-user', data).then(res => res.data),
+    api.delete(`/groups/${data.group_id}/members/${data.username}`).then(res => res.data),
   
   update: (data: { group_id: string; name: string; description: string }): Promise<{ success: boolean; error?: string }> =>
-    api.post('/groups/update', data).then(res => res.data),
+    api.put(`/groups/${data.group_id}`, { name: data.name, description: data.description }).then(res => res.data),
   
   delete: (data: { group_id: string }): Promise<{ success: boolean; error?: string }> =>
-    api.post('/groups/delete', data).then(res => res.data),
+    api.delete(`/groups/${data.group_id}`).then(res => res.data),
 };
 
 // Images API
 export const imagesAPI = {
   getUserImages: (username: string): Promise<{ images: Image[] }> =>
-    api.get(`/images/${username}`).then(res => res.data),
+    api.get(`/users/${username}/images`).then(res => res.data),
+  
+  getImage: (imageId: string): Promise<{ image: Image }> =>
+    api.get(`/images/${imageId}`).then(res => res.data),
   
   upload: (formData: FormData): Promise<{ success: boolean; id: string; filename: string; error?: string }> =>
-    api.post('/upload', formData, {
+    api.post('/images', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     }).then(res => res.data),
   
   delete: (imageId: string): Promise<{ success: boolean; error?: string }> =>
-    api.delete(`/images/delete/${imageId}`).then(res => res.data),
+    api.delete(`/images/${imageId}`).then(res => res.data),
 };
 
 // Tags API
 export const tagsAPI = {
-  suggest: (data: { image_id: string; tag: string; suggested_by: string }): Promise<{ success: boolean; id: string }> =>
-    api.post('/tags/suggest', data).then(res => res.data),
+  suggest: (imageId: string, data: { tag: string; suggested_by: string }): Promise<{ success: boolean; id: string }> =>
+    api.post(`/images/${imageId}/tags`, data).then(res => res.data),
   
-  review: (data: { suggestion_id: string; status: string; reviewed_by: string }): Promise<{ success: boolean }> =>
-    api.post('/tags/review', data).then(res => res.data),
+  getImageTags: (imageId: string): Promise<{ tags: TagSuggestion[] }> =>
+    api.get(`/images/${imageId}/tags`).then(res => res.data),
   
-  upvote: (data: { tag_id: string; user_id: string }): Promise<{ success: boolean }> =>
-    api.post('/tags/upvote', data).then(res => res.data),
+  review: (tagId: string, data: { status: string; reviewed_by: string }): Promise<{ success: boolean }> =>
+    api.put(`/tags/${tagId}`, data).then(res => res.data),
+  
+  upvote: (tagId: string, data: { user_id: string }): Promise<{ success: boolean }> =>
+    api.post(`/tags/${tagId}/upvotes`, data).then(res => res.data),
   
   getAll: (): Promise<{ suggestions: TagSuggestion[] }> =>
-    api.get('/tags/all').then(res => res.data),
+    api.get('/tags').then(res => res.data),
   
   getApproved: (): Promise<{ tags: ApprovedTag[] }> =>
     api.get('/tags/approved').then(res => res.data),
   
-  getUpvotes: (): Promise<{ upvotes: TagUpvote[] }> =>
-    api.get('/tags/upvotes').then(res => res.data),
+  getUpvotes: (tagId: string): Promise<{ upvotes: TagUpvote[] }> =>
+    api.get(`/tags/${tagId}/upvotes`).then(res => res.data),
 };
 
 // Users API
@@ -100,8 +106,17 @@ export const usersAPI = {
     api.get('/users').then(res => res.data),
 };
 
-// OpenAI API
-export const openaiAPI = {
+// Chat API
+export const chatAPI = {
+  sendMessage: (data: {
+    message: string;
+    context: any;
+  }): Promise<{ success: boolean; response?: string; error?: string }> =>
+    api.post('/conversations', data).then(res => res.data),
+};
+
+// AI API
+export const aiAPI = {
   generateTagSuggestion: (data: {
     group_name: string;
     approved_tags: string[];
@@ -110,7 +125,7 @@ export const openaiAPI = {
     image_name: string;
     image_url: string;
   }): Promise<{ success: boolean; suggestion?: string; error?: string }> =>
-    api.post('/openai/tag-suggestion', data).then(res => res.data),
+    api.post('/ai/tag-suggestions', data).then(res => res.data),
 };
 
 export default api;

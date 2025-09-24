@@ -112,6 +112,28 @@ pub async fn upload_image(
     })))
 }
 
+pub async fn get_image(
+    path: web::Path<String>,
+    data_service: web::Data<std::sync::Mutex<DataService>>,
+) -> Result<HttpResponse> {
+    let image_id = path.into_inner();
+    println!("🖼️ Fetching image: {}", image_id);
+    let data = data_service.lock().unwrap();
+    
+    if let Some(image) = data.get_image(&image_id) {
+        println!("✅ Retrieved image '{}'", image_id);
+        Ok(HttpResponse::Ok().json(serde_json::json!({
+            "image": image
+        })))
+    } else {
+        println!("❌ Image '{}' not found", image_id);
+        Ok(HttpResponse::NotFound().json(serde_json::json!({
+            "success": false,
+            "error": "Image not found"
+        })))
+    }
+}
+
 pub async fn get_user_images(
     path: web::Path<String>,
     data_service: web::Data<std::sync::Mutex<DataService>>,

@@ -20,26 +20,13 @@ pub struct CreateGroupRequest {
 
 #[derive(Debug, Deserialize)]
 pub struct AddUserToGroupRequest {
-    pub group_id: String,
-    pub username: String,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct RemoveUserFromGroupRequest {
-    pub group_id: String,
     pub username: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct UpdateGroupRequest {
-    pub group_id: String,
     pub name: String,
     pub description: String,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct DeleteGroupRequest {
-    pub group_id: String,
 }
 
 impl Group {

@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { User, Image, Group, TagSuggestion, ApprovedTag, TagUpvote, View } from '../../types';
+import { User, Image, Group, TagSuggestion, ApprovedTag, View } from '../../types';
 
 interface DashboardProps {
   user: User;
@@ -7,7 +7,6 @@ interface DashboardProps {
   groups: Group[];
   tagSuggestions: TagSuggestion[];
   approvedTags: ApprovedTag[];
-  tagUpvotes: TagUpvote[];
   availableUsers: string[];
   onViewChange: (view: View) => void;
 }
@@ -18,7 +17,6 @@ const Dashboard: React.FC<DashboardProps> = memo(({
   groups,
   tagSuggestions,
   approvedTags,
-  tagUpvotes,
   availableUsers,
   onViewChange
 }) => {
@@ -29,17 +27,14 @@ const Dashboard: React.FC<DashboardProps> = memo(({
     const totalUsers = availableUsers.length;
     const pendingSuggestionsCount = tagSuggestions.filter(sug => sug.status === 'pending').length;
     const approvedTagsCount = approvedTags.length;
-    const totalUpvotes = tagUpvotes.length;
-    
     return {
       totalImages,
       totalGroups,
       totalUsers,
       pendingSuggestionsCount,
-      approvedTagsCount,
-      totalUpvotes
+      approvedTagsCount
     };
-  }, [images.length, groups.length, availableUsers.length, tagSuggestions, approvedTags.length, tagUpvotes.length]);
+  }, [images.length, groups.length, availableUsers.length, tagSuggestions, approvedTags.length]);
 
   const activityMetrics = useMemo(() => {
     const today = new Date();
@@ -243,10 +238,6 @@ const Dashboard: React.FC<DashboardProps> = memo(({
                 <div className="quick-stat">
                   <div className="stat-label">Pending Reviews</div>
                   <div className="stat-value pending">{metrics.pendingSuggestionsCount}</div>
-                </div>
-                <div className="quick-stat">
-                  <div className="stat-label">Total Upvotes</div>
-                  <div className="stat-value">{metrics.totalUpvotes}</div>
                 </div>
                 <div className="quick-stat">
                   <div className="stat-label">Avg Images/Group</div>

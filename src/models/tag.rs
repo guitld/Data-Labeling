@@ -34,21 +34,18 @@ pub struct TagUpvote {
 
 #[derive(Debug, Deserialize)]
 pub struct SuggestTagRequest {
-    pub image_id: String,
     pub tag: String,
     pub suggested_by: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct ReviewTagRequest {
-    pub suggestion_id: String,
     pub status: String, // "approved" or "rejected"
     pub reviewed_by: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct UpvoteTagRequest {
-    pub tag_id: String,
     pub user_id: String,
 }
 

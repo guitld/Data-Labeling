@@ -1,10 +1,9 @@
 import React from 'react';
-import { TagSuggestion, ApprovedTag, TagUpvote, User, Image, Group } from '../../types';
+import { TagSuggestion, ApprovedTag, User, Image, Group } from '../../types';
 
 interface TagsProps {
   tagSuggestions: TagSuggestion[];
   approvedTags: ApprovedTag[];
-  tagUpvotes: TagUpvote[];
   images: Image[];
   groups: Group[];
   user: User;
@@ -17,7 +16,6 @@ interface TagsProps {
 const Tags: React.FC<TagsProps> = ({
   tagSuggestions,
   approvedTags,
-  tagUpvotes,
   images,
   groups,
   user,
@@ -119,21 +117,7 @@ const Tags: React.FC<TagsProps> = ({
         {approvedTags.length > 0 ? (
           <div className="tag-list">
             {approvedTags
-              .sort((a, b) => {
-                const aUpvoted = tagUpvotes.some(upvote => 
-                  upvote.tag_id === a.id && upvote.user_id === user?.username
-                );
-                const bUpvoted = tagUpvotes.some(upvote => 
-                  upvote.tag_id === b.id && upvote.user_id === user?.username
-                );
-                
-                // Prioritize upvoted tags first
-                if (aUpvoted && !bUpvoted) return -1;
-                if (!aUpvoted && bUpvoted) return 1;
-                
-                // If both have same upvote status, sort by upvote count (descending)
-                return b.upvotes - a.upvotes;
-              })
+              .sort((a, b) => b.upvotes - a.upvotes)
               .map(tag => {
                 const image = images.find(img => img.id === tag.image_id);
                 return (

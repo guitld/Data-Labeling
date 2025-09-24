@@ -41,7 +41,7 @@ export interface ChatResponse {
 export const chatAPI = {
   sendMessage: async (request: ChatRequest): Promise<ChatResponse> => {
     try {
-      const response = await chatAxios.post('/chat', request);
+      const response = await chatAxios.post('/conversations', request);
       return response.data;
     } catch (error) {
       console.error('Chat API Error:', error);

@@ -10,9 +10,9 @@ mod handlers;
 use services::{UserService, DataService};
 use handlers::{
     login, protected_route, admin_only_route, get_users_endpoint,
-    get_groups, create_group, add_user_to_group, remove_user_from_group, update_group, delete_group,
-    upload_image, get_user_images, delete_image,
-    suggest_tag, review_tag, upvote_tag, get_all_tags, get_approved_tags, get_tag_upvotes,
+    get_groups, get_group, create_group, add_user_to_group, remove_user_from_group, update_group, delete_group,
+    upload_image, get_image, get_user_images, delete_image,
+    suggest_tag, get_image_tags, review_tag, upvote_tag, get_all_tags, get_approved_tags, get_tag_upvotes,
     chat_endpoint, generate_tag_suggestion,
 };
 
@@ -69,32 +69,42 @@ async fn main() -> std::io::Result<()> {
             .route("/admin", web::get().to(admin_only_route))
             .route("/users", web::get().to(get_users_endpoint))
             
-            // Group routes
-            .route("/groups", web::get().to(get_groups))
-            .route("/groups", web::post().to(create_group))
-            .route("/groups/add-user", web::post().to(add_user_to_group))
-            .route("/groups/remove-user", web::post().to(remove_user_from_group))
-            .route("/groups/update", web::post().to(update_group))
-            .route("/groups/delete", web::post().to(delete_group))
+            // Group routes - RESTful
+            .route("/groups", web::get().to(get_groups))                    // GET /groups
+            .route("/groups", web::post().to(create_group))                 // POST /groups
+            .route("/groups/{id}", web::get().to(get_group))                // GET /groups/{id}
+            .route("/groups/{id}", web::put().to(update_group))             // PUT /groups/{id}
+            .route("/groups/{id}", web::delete().to(delete_group))          // DELETE /groups/{id}
+            .route("/groups/{id}/members", web::post().to(add_user_to_group))    // POST /groups/{id}/members
+            .route("/groups/{id}/members/{username}", web::delete().to(remove_user_from_group)) // DELETE /groups/{id}/members/{username}
             
-            // Image routes
-            .route("/upload", web::post().to(upload_image))
-            .route("/images/{username}", web::get().to(get_user_images))
-            .route("/images/delete/{image_id}", web::delete().to(delete_image))
             
-            // Tag routes
-            .route("/tags/suggest", web::post().to(suggest_tag))
-            .route("/tags/review", web::post().to(review_tag))
-            .route("/tags/upvote", web::post().to(upvote_tag))
-            .route("/tags/all", web::get().to(get_all_tags))
-            .route("/tags/approved", web::get().to(get_approved_tags))
-            .route("/tags/upvotes", web::get().to(get_tag_upvotes))
+            // Image routes - RESTful
+            .route("/images", web::post().to(upload_image))                    // POST /images
+            .route("/images/{id}", web::get().to(get_image))                   // GET /images/{id}
+            .route("/images/{id}", web::delete().to(delete_image))             // DELETE /images/{id}
+            .route("/users/{username}/images", web::get().to(get_user_images)) // GET /users/{username}/images
             
-            // Chat routes
-            .route("/chat", web::post().to(chat_endpoint))
+            // Tag routes - RESTful
+            .service(
+                web::resource("/images/{image_id}/tags")
+                    .route(web::post().to(suggest_tag))
+                    .route(web::get().to(get_image_tags))
+            )
+            .route("/tags", web::get().to(get_all_tags))                       // GET /tags
+            .route("/tags/{tag_id}", web::put().to(review_tag))                // PUT /tags/{tag_id}
+            .service(
+                web::resource("/tags/{tag_id}/upvotes")
+                    .route(web::post().to(upvote_tag))
+                    .route(web::get().to(get_tag_upvotes))
+            )
+            .route("/tags/approved", web::get().to(get_approved_tags))         // GET /tags/approved
             
-            // OpenAI routes
-            .route("/openai/tag-suggestion", web::post().to(generate_tag_suggestion))
+            // Chat routes - RESTful
+            .route("/conversations", web::post().to(chat_endpoint))             // POST /conversations
+            
+            // AI routes - RESTful
+            .route("/ai/tag-suggestions", web::post().to(generate_tag_suggestion)) // POST /ai/tag-suggestions
     })
     .bind("127.0.0.1:8082")?
     .run()

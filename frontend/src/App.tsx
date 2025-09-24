@@ -17,7 +17,6 @@ const App: React.FC = () => {
     groups, 
     tagSuggestions, 
     approvedTags, 
-    tagUpvotes, 
     availableUsers, 
     loading: dataLoading, 
     error: dataError, 
@@ -93,8 +92,7 @@ const App: React.FC = () => {
 
     setSuggestingTag(true);
     try {
-      const response = await tagsAPI.suggest({
-        image_id: imageId,
+      const response = await tagsAPI.suggest(imageId, {
         tag: tag,
         suggested_by: user.username
       });
@@ -117,8 +115,7 @@ const App: React.FC = () => {
     if (!user) return;
 
     try {
-      const response = await tagsAPI.upvote({
-        tag_id: tagId,
+      const response = await tagsAPI.upvote(tagId, {
         user_id: user.username
       });
 
@@ -138,8 +135,7 @@ const App: React.FC = () => {
     if (!user || user.role !== 'admin') return;
 
     try {
-      const response = await tagsAPI.review({
-        suggestion_id: suggestionId,
+      const response = await tagsAPI.review(suggestionId, {
         status: 'approved',
         reviewed_by: user.username
       });
@@ -160,8 +156,7 @@ const App: React.FC = () => {
     if (!user || user.role !== 'admin') return;
 
     try {
-      const response = await tagsAPI.review({
-        suggestion_id: suggestionId,
+      const response = await tagsAPI.review(suggestionId, {
         status: 'rejected',
         reviewed_by: user.username
       });
@@ -222,7 +217,6 @@ const App: React.FC = () => {
             groups={groups}
             tagSuggestions={tagSuggestions}
             approvedTags={approvedTags}
-            tagUpvotes={tagUpvotes}
             availableUsers={availableUsers}
             onViewChange={handleViewChange}
           />
@@ -271,7 +265,6 @@ const App: React.FC = () => {
           <Tags
             tagSuggestions={tagSuggestions}
             approvedTags={approvedTags}
-            tagUpvotes={tagUpvotes}
             images={images}
             groups={groups}
             user={user!}
@@ -371,7 +364,6 @@ const App: React.FC = () => {
             groups={groups}
             approvedTags={approvedTags}
             tagSuggestions={tagSuggestions}
-            tagUpvotes={tagUpvotes}
             user={user}
             onClose={() => setShowImageModal(false)}
             onSuggestTag={handleSuggestTag}

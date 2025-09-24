@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Image, Group, TagSuggestion, ApprovedTag, TagUpvote } from '../types';
+import { Image, Group, TagSuggestion, ApprovedTag } from '../types';
 import { groupsAPI, imagesAPI, tagsAPI, usersAPI } from '../services/api';
 
 export const useData = (user: { username: string } | null) => {
@@ -7,7 +7,6 @@ export const useData = (user: { username: string } | null) => {
   const [groups, setGroups] = useState<Group[]>([]);
   const [tagSuggestions, setTagSuggestions] = useState<TagSuggestion[]>([]);
   const [approvedTags, setApprovedTags] = useState<ApprovedTag[]>([]);
-  const [tagUpvotes, setTagUpvotes] = useState<TagUpvote[]>([]);
   const [availableUsers, setAvailableUsers] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -23,13 +22,12 @@ export const useData = (user: { username: string } | null) => {
     
     try {
       // Load all data in parallel
-      const [groupsResponse, imagesResponse, usersResponse, tagsResponse, approvedResponse, upvotesResponse] = await Promise.all([
+      const [groupsResponse, imagesResponse, usersResponse, tagsResponse, approvedResponse] = await Promise.all([
         groupsAPI.getAll(),
         imagesAPI.getUserImages(user.username),
         usersAPI.getAll(),
         tagsAPI.getAll(),
-        tagsAPI.getApproved(),
-        tagsAPI.getUpvotes()
+        tagsAPI.getApproved()
       ]);
       
       console.log('Data loaded successfully:', {
@@ -37,8 +35,7 @@ export const useData = (user: { username: string } | null) => {
         images: imagesResponse.images?.length || 0,
         users: usersResponse?.length || 0,
         suggestions: tagsResponse.suggestions?.length || 0,
-        approvedTags: approvedResponse.tags?.length || 0,
-        upvotes: upvotesResponse.upvotes?.length || 0
+        approvedTags: approvedResponse.tags?.length || 0
       });
       
       setGroups(groupsResponse.groups || []);
@@ -46,7 +43,6 @@ export const useData = (user: { username: string } | null) => {
       setAvailableUsers(usersResponse || []);
       setTagSuggestions(tagsResponse.suggestions || []);
       setApprovedTags(approvedResponse.tags || []);
-      setTagUpvotes(upvotesResponse.upvotes || []);
       setError('');
     } catch (err: any) {
       console.error('Failed to load data:', err);
@@ -81,7 +77,6 @@ export const useData = (user: { username: string } | null) => {
     groups,
     tagSuggestions,
     approvedTags,
-    tagUpvotes,
     availableUsers,
     loading,
     error,

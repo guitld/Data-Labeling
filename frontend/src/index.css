@@ -4860,4 +4860,197 @@ code {
   to { transform: rotate(360deg); }
 }
 
+/* Markdown Styles for Chat */
+.markdown-paragraph {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  color: inherit;
+}
+
+.markdown-h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem 0;
+  color: #1e293b;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.markdown-h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0.8rem 0 0.4rem 0;
+  color: #374151;
+}
+
+.markdown-h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.6rem 0 0.3rem 0;
+  color: #4b5563;
+}
+
+.markdown-strong {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.markdown-em {
+  font-style: italic;
+  color: #6b7280;
+}
+
+.markdown-ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown-ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown-li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.markdown-inline-code {
+  background: #f1f5f9;
+  color: #e11d48;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  border: 1px solid #e2e8f0;
+}
+
+.markdown-code-block {
+  background: #f8fafc;
+  color: #1e293b;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  border: 1px solid #e2e8f0;
+  margin: 0.5rem 0;
+  overflow-x: auto;
+}
+
+.markdown-pre {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin: 0.5rem 0;
+  overflow-x: auto;
+}
+
+.markdown-blockquote {
+  border-left: 4px solid #667eea;
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+  color: #6b7280;
+  font-style: italic;
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.markdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.markdown-thead {
+  background: #f8fafc;
+}
+
+.markdown-tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.markdown-tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.markdown-th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.markdown-td {
+  padding: 0.75rem 1rem;
+  color: #4b5563;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Dark theme adjustments for user messages */
+.message.user .markdown-h1,
+.message.user .markdown-h2,
+.message.user .markdown-h3 {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.message.user .markdown-strong {
+  color: white;
+}
+
+.message.user .markdown-em {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.message.user .markdown-inline-code {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fbbf24;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.message.user .markdown-code-block,
+.message.user .markdown-pre {
+  background: rgba(0, 0, 0, 0.2);
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.message.user .markdown-blockquote {
+  border-left-color: #fbbf24;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.message.user .markdown-table {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.message.user .markdown-thead {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.message.user .markdown-tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.message.user .markdown-th {
+  color: rgba(255, 255, 255, 0.95);
+  border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.message.user .markdown-td {
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.message.user .markdown-tr {
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
 

@@ -1,6 +1,6 @@
 use actix_web::{web, HttpResponse, Result};
 use serde_json;
-use crate::models::{CreateGroupRequest, AddUserToGroupRequest, RemoveUserFromGroupRequest, UpdateGroupRequest, DeleteGroupRequest, Group};
+use crate::models::{CreateGroupRequest, AddUserToGroupRequest, UpdateGroupRequest, Group};
 use crate::services::DataService;
 
 pub async fn get_groups(
@@ -14,6 +14,28 @@ pub async fn get_groups(
     Ok(HttpResponse::Ok().json(serde_json::json!({
         "groups": groups
     })))
+}
+
+pub async fn get_group(
+    path: web::Path<String>,
+    data_service: web::Data<std::sync::Mutex<DataService>>,
+) -> Result<HttpResponse> {
+    let group_id = path.into_inner();
+    println!("📁 Fetching group '{}'", group_id);
+    let data = data_service.lock().unwrap();
+    
+    if let Some(group) = data.get_group(&group_id) {
+        println!("✅ Retrieved group '{}'", group_id);
+        Ok(HttpResponse::Ok().json(serde_json::json!({
+            "group": group
+        })))
+    } else {
+        println!("❌ Group '{}' not found", group_id);
+        Ok(HttpResponse::NotFound().json(serde_json::json!({
+            "success": false,
+            "error": "Group not found"
+        })))
+    }
 }
 
 pub async fn create_group(
@@ -40,23 +62,25 @@ pub async fn create_group(
 }
 
 pub async fn add_user_to_group(
+    path: web::Path<String>,
     req: web::Json<AddUserToGroupRequest>,
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {
-    println!("👤 Adding user '{}' to group '{}'", req.username, req.group_id);
+    let group_id = path.into_inner();
+    println!("👤 Adding user '{}' to group '{}'", req.username, group_id);
     let mut data = data_service.lock().unwrap();
     
-    if let Some(group) = data.get_group_mut(&req.group_id) {
+    if let Some(group) = data.get_group_mut(&group_id) {
         group.add_member(req.username.clone());
         let _ = data.save_to_json();
-        println!("✅ User '{}' added to group '{}' successfully", req.username, req.group_id);
+        println!("✅ User '{}' added to group '{}' successfully", req.username, group_id);
         
         Ok(HttpResponse::Ok().json(serde_json::json!({
             "success": true,
             "message": "User added to group successfully"
         })))
     } else {
-        println!("❌ Group '{}' not found", req.group_id);
+        println!("❌ Group '{}' not found", group_id);
         Ok(HttpResponse::NotFound().json(serde_json::json!({
             "success": false,
             "error": "Group not found"
@@ -65,23 +89,24 @@ pub async fn add_user_to_group(
 }
 
 pub async fn remove_user_from_group(
-    req: web::Json<RemoveUserFromGroupRequest>,
+    path: web::Path<(String, String)>,
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {
-    println!("👤 Removing user '{}' from group '{}'", req.username, req.group_id);
+    let (group_id, username) = path.into_inner();
+    println!("👤 Removing user '{}' from group '{}'", username, group_id);
     let mut data = data_service.lock().unwrap();
     
-    if let Some(group) = data.get_group_mut(&req.group_id) {
-        group.remove_member(&req.username);
+    if let Some(group) = data.get_group_mut(&group_id) {
+        group.remove_member(&username);
         let _ = data.save_to_json();
-        println!("✅ User '{}' removed from group '{}' successfully", req.username, req.group_id);
+        println!("✅ User '{}' removed from group '{}' successfully", username, group_id);
         
         Ok(HttpResponse::Ok().json(serde_json::json!({
             "success": true,
             "message": "User removed from group successfully"
         })))
     } else {
-        println!("❌ Group '{}' not found", req.group_id);
+        println!("❌ Group '{}' not found", group_id);
         Ok(HttpResponse::NotFound().json(serde_json::json!({
             "success": false,
             "error": "Group not found"
@@ -89,25 +114,28 @@ pub async fn remove_user_from_group(
     }
 }
 
+
 pub async fn update_group(
+    path: web::Path<String>,
     req: web::Json<UpdateGroupRequest>,
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {
-    println!("✏️ Updating group '{}' to '{}'", req.group_id, req.name);
+    let group_id = path.into_inner();
+    println!("✏️ Updating group '{}' to '{}'", group_id, req.name);
     let mut data = data_service.lock().unwrap();
     
-    if let Some(group) = data.get_group_mut(&req.group_id) {
+    if let Some(group) = data.get_group_mut(&group_id) {
         group.name = req.name.clone();
         group.description = req.description.clone();
         let _ = data.save_to_json();
-        println!("✅ Group '{}' updated successfully", req.group_id);
+        println!("✅ Group '{}' updated successfully", group_id);
         
         Ok(HttpResponse::Ok().json(serde_json::json!({
             "success": true,
             "message": "Group updated successfully"
         })))
     } else {
-        println!("❌ Group '{}' not found", req.group_id);
+        println!("❌ Group '{}' not found", group_id);
         Ok(HttpResponse::NotFound().json(serde_json::json!({
             "success": false,
             "error": "Group not found"
@@ -115,25 +143,29 @@ pub async fn update_group(
     }
 }
 
+
 pub async fn delete_group(
-    req: web::Json<DeleteGroupRequest>,
+    path: web::Path<String>,
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {
-    println!("🗑️ Deleting group '{}'", req.group_id);
+    let group_id = path.into_inner();
+    println!("🗑️ Deleting group '{}'", group_id);
     let mut data = data_service.lock().unwrap();
     
-    if data.delete_group(&req.group_id) {
-        println!("✅ Group '{}' deleted successfully", req.group_id);
+    if data.delete_group(&group_id) {
+        println!("✅ Group '{}' deleted successfully", group_id);
         Ok(HttpResponse::Ok().json(serde_json::json!({
             "success": true,
             "message": "Group deleted successfully"
         })))
     } else {
-        println!("❌ Group '{}' not found", req.group_id);
+        println!("❌ Group '{}' not found", group_id);
         Ok(HttpResponse::NotFound().json(serde_json::json!({
             "success": false,
             "error": "Group not found"
         })))
     }
 }
+
+
 

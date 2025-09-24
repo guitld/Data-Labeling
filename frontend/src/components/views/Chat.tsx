@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Group, Image, TagSuggestion, ApprovedTag } from '../../types';
 import { chatAPI, ChatRequest } from '../../services/chat';
 
@@ -175,17 +177,39 @@ const Chat: React.FC<ChatProps> = ({
                 )}
                 <div className="message-text">
                   <div className="message-body">
-                    {message.content.split('\n').map((line, index) => (
-                      <div key={index}>
-                        {line.startsWith('•') ? (
-                          <div className="list-item">{line}</div>
-                        ) : line.startsWith('**') && line.endsWith('**') ? (
-                          <div className="message-title">{line.slice(2, -2)}</div>
-                        ) : (
-                          <div>{line}</div>
-                        )}
-                      </div>
-                    ))}
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        // Custom styling for markdown elements
+                        p: ({ children }) => <p className="markdown-paragraph">{children}</p>,
+                        h1: ({ children }) => <h1 className="markdown-h1">{children}</h1>,
+                        h2: ({ children }) => <h2 className="markdown-h2">{children}</h2>,
+                        h3: ({ children }) => <h3 className="markdown-h3">{children}</h3>,
+                        strong: ({ children }) => <strong className="markdown-strong">{children}</strong>,
+                        em: ({ children }) => <em className="markdown-em">{children}</em>,
+                        ul: ({ children }) => <ul className="markdown-ul">{children}</ul>,
+                        ol: ({ children }) => <ol className="markdown-ol">{children}</ol>,
+                        li: ({ children }) => <li className="markdown-li">{children}</li>,
+                        code: ({ children, className }) => {
+                          const isInline = !className;
+                          return isInline ? (
+                            <code className="markdown-inline-code">{children}</code>
+                          ) : (
+                            <code className={`markdown-code-block ${className}`}>{children}</code>
+                          );
+                        },
+                        pre: ({ children }) => <pre className="markdown-pre">{children}</pre>,
+                        blockquote: ({ children }) => <blockquote className="markdown-blockquote">{children}</blockquote>,
+                        table: ({ children }) => <table className="markdown-table">{children}</table>,
+                        thead: ({ children }) => <thead className="markdown-thead">{children}</thead>,
+                        tbody: ({ children }) => <tbody className="markdown-tbody">{children}</tbody>,
+                        tr: ({ children }) => <tr className="markdown-tr">{children}</tr>,
+                        th: ({ children }) => <th className="markdown-th">{children}</th>,
+                        td: ({ children }) => <td className="markdown-td">{children}</td>,
+                      }}
+                    >
+                      {message.content}
+                    </ReactMarkdown>
                   </div>
                   <div className="message-time">
                     {message.timestamp.toLocaleTimeString()}

@@ -1,3 +1,3 @@
 # Image Management Platform
 
-An intelligent image management platform built with React (TypeScript) frontend and Rust (Actix-Web) backend. The system enables image upload and organization into groups, automatic tag generation using AI (OpenAI), tag suggestion approval/rejection workflow, and an intelligent chat interface for administrative insights. Features include role-based authentication (admin/user), modern responsive interface, and real-time data analytics for administrators.
+An image management platform built with React (TypeScript) frontend and Rust (Actix-Web) backend. The system enables image upload and organization into groups, automatic tag generation using AI (OpenAI) and tag suggestion approval/rejection workflow. Features include role-based authentication (admin/user), responsive interface, and real-time data analytics for administrators.

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Group, ApprovedTag, TagSuggestion, TagUpvote, User } from '../types';
-import { openaiAPI } from '../services/api';
+import { aiAPI, tagsAPI } from '../services/api';
 
 interface ImageModalProps {
   image: Image | null;
   groups: Group[];
   approvedTags: ApprovedTag[];
   tagSuggestions: TagSuggestion[];
-  tagUpvotes: TagUpvote[];
   user: User | null;
   onClose: () => void;
   onSuggestTag: (imageId: string, tag: string) => Promise<void>;
@@ -22,7 +21,6 @@ const ImageModal: React.FC<ImageModalProps> = ({
   groups,
   approvedTags,
   tagSuggestions,
-  tagUpvotes,
   user,
   onClose,
   onSuggestTag,
@@ -33,6 +31,32 @@ const ImageModal: React.FC<ImageModalProps> = ({
 }) => {
   const [newTagText, setNewTagText] = useState('');
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [tagUpvotesMap, setTagUpvotesMap] = useState<Record<string, TagUpvote[]>>({});
+
+  // Função para carregar upvotes de uma tag específica
+  const loadTagUpvotes = async (tagId: string) => {
+    try {
+      const response = await tagsAPI.getUpvotes(tagId);
+      setTagUpvotesMap(prev => ({
+        ...prev,
+        [tagId]: response.upvotes
+      }));
+    } catch (error) {
+      console.error('Error loading tag upvotes:', error);
+    }
+  };
+
+  // Carregar upvotes das tags quando o modal abrir
+  useEffect(() => {
+    if (image) {
+      const imageApprovedTags = approvedTags.filter(tag => tag.image_id === image.id);
+      imageApprovedTags.forEach(tag => {
+        if (!tagUpvotesMap[tag.id]) {
+          loadTagUpvotes(tag.id);
+        }
+      });
+    }
+  }, [image, approvedTags, tagUpvotesMap]);
 
   if (!image) return null;
 
@@ -51,6 +75,12 @@ const ImageModal: React.FC<ImageModalProps> = ({
       await onSuggestTag(image.id, newTagText.trim());
       setNewTagText('');
     }
+  };
+
+  const handleUpvote = async (tagId: string) => {
+    await onUpvoteTag(tagId);
+    // Recarregar os upvotes após o upvote
+    await loadTagUpvotes(tagId);
   };
 
   const handleAISuggestion = async () => {
@@ -73,7 +103,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
         image_url: `http://localhost:8082/uploads/${image.filename}`
       };
       
-      const response = await openaiAPI.generateTagSuggestion(request);
+      const response = await aiAPI.generateTagSuggestion(request);
       
       if (response.success && response.suggestion) {
         setNewTagText(response.suggestion);
@@ -175,25 +205,22 @@ const ImageModal: React.FC<ImageModalProps> = ({
                 <div className="tag-list">
                   {imageApprovedTags
                     .sort((a, b) => {
-                      const aUpvoted = tagUpvotes.some(upvote =>
-                        upvote.tag_id === a.id && upvote.user_id === user?.username
-                      );
-                      const bUpvoted = tagUpvotes.some(upvote =>
-                        upvote.tag_id === b.id && upvote.user_id === user?.username
-                      );
+                      const aUpvotes = tagUpvotesMap[a.id] || [];
+                      const bUpvotes = tagUpvotesMap[b.id] || [];
+                      const aUpvoted = aUpvotes.some(upvote => upvote.user_id === user?.username);
+                      const bUpvoted = bUpvotes.some(upvote => upvote.user_id === user?.username);
 
                       if (aUpvoted && !bUpvoted) return -1;
                       if (!aUpvoted && bUpvoted) return 1;
-                      return b.upvotes - a.upvotes;
+                      return bUpvotes.length - aUpvotes.length;
                     })
                     .map(tag => {
-                      const hasUpvoted = tagUpvotes.some(upvote =>
-                        upvote.tag_id === tag.id && upvote.user_id === user?.username
-                      );
+                      const tagUpvotes = tagUpvotesMap[tag.id] || [];
+                      const hasUpvoted = tagUpvotes.some(upvote => upvote.user_id === user?.username);
                       return (
                         <div key={tag.id} className="tag-item-approved">
-                          <div className={`upvote-section ${hasUpvoted ? 'upvoted' : 'not-upvoted'}`} onClick={() => onUpvoteTag(tag.id)}>
-                            <span className="upvote-count">{tag.upvotes}</span>
+                          <div className={`upvote-section ${hasUpvoted ? 'upvoted' : 'not-upvoted'}`} onClick={() => handleUpvote(tag.id)}>
+                            <span className="upvote-count">{tagUpvotes.length}</span>
                           </div>
                           <span className="tag-text">{tag.tag}</span>
                         </div>
