@@ -28,7 +28,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
     <div className="image-item">
       <div className="image-container" onClick={() => onImageClick(image)}>
           <img 
-            src={`http://localhost:8082/uploads/${image.filename}?t=${Date.now()}`} 
+            src={`http://localhost:8082/uploads/${image.filename}?v=${new Date(image.uploaded_at).getTime()}`} 
             alt={image.original_name}
             className="gallery-image"
           />

@@ -12,8 +12,8 @@ use handlers::{
     login, protected_route, admin_only_route, get_users_endpoint,
     get_groups, get_group, create_group, add_user_to_group, remove_user_from_group, update_group, delete_group,
     upload_image, get_image, get_user_images, delete_image,
-    suggest_tag, get_image_tags, review_tag, upvote_tag, get_all_tags, get_approved_tags, get_tag_upvotes,
-    chat_endpoint, generate_tag_suggestion,
+    suggest_tag, get_image_tags, review_tag, upvote_tag, get_all_tags, get_approved_tags, get_tag_upvotes, delete_approved_tag,
+    chat_endpoint, generate_tag_suggestion, export_annotations,
 };
 
 // Inicializar uploads directory
@@ -98,7 +98,10 @@ async fn main() -> std::io::Result<()> {
                     .route(web::post().to(upvote_tag))
                     .route(web::get().to(get_tag_upvotes))
             )
+            .route("/tags/{tag_id}", web::delete().to(delete_approved_tag))
             .route("/tags/approved", web::get().to(get_approved_tags))         // GET /tags/approved
+            .route("/annotations/export", web::get().to(export_annotations))
+            .route("/annotations/export", web::get().to(export_annotations))
             
             // Chat routes - RESTful
             .route("/conversations", web::post().to(chat_endpoint))             // POST /conversations

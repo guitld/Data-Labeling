@@ -54,17 +54,37 @@ const Dashboard: React.FC<DashboardProps> = memo(({
   }, [groups, images]);
 
   const userActivity = useMemo(() => {
+    const approvedSuggestionOwners = tagSuggestions
+      .filter(suggestion => suggestion.status === 'approved')
+      .reduce<Map<string, string>>((acc, suggestion) => {
+        const key = `${suggestion.image_id}::${suggestion.tag.toLowerCase()}`;
+        if (!acc.has(key)) {
+          acc.set(key, suggestion.suggested_by);
+        }
+        return acc;
+      }, new Map());
+
+    const upvotesByUser = approvedTags.reduce<Record<string, number>>((acc, tag) => {
+      const key = `${tag.image_id}::${tag.tag.toLowerCase()}`;
+      const owner = approvedSuggestionOwners.get(key);
+      if (owner) {
+        acc[owner] = (acc[owner] || 0) + (tag.upvotes || 0);
+      }
+      return acc;
+    }, {});
+
     return availableUsers.map(username => {
       const userImages = images.filter(img => img.uploaded_by === username).length;
       const userSuggestions = tagSuggestions.filter(sug => sug.suggested_by === username).length;
+      const upvotesReceived = upvotesByUser[username] || 0;
       return {
         username,
         images: userImages,
         suggestions: userSuggestions,
-        total: userImages + userSuggestions
+        upvotesReceived
       };
-    }).sort((a, b) => b.total - a.total);
-  }, [availableUsers, images, tagSuggestions]);
+    }).sort((a, b) => b.upvotesReceived - a.upvotesReceived);
+  }, [availableUsers, images, tagSuggestions, approvedTags]);
 
   const recentActivity = useMemo(() => {
     return [
@@ -195,8 +215,8 @@ const Dashboard: React.FC<DashboardProps> = memo(({
                         <span className="stat">{user.suggestions} suggestions</span>
                       </div>
                     </div>
-                    <div className="activity-score">
-                      {user.total}
+                    <div className="activity-score" title="Total upvotes received on approved tags">
+                      {user.upvotesReceived}
                     </div>
                   </div>
                 ))}

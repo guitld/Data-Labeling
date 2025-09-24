@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Group, User, Image } from '../../types';
-import { groupsAPI, usersAPI } from '../../services/api';
+import { groupsAPI, usersAPI, adminAPI } from '../../services/api';
 import GroupCard from '../GroupCard';
 
 interface GroupsProps {
@@ -40,6 +40,26 @@ const Groups: React.FC<GroupsProps> = ({
   const [updatingGroup, setUpdatingGroup] = useState(false);
   const [deletingGroup, setDeletingGroup] = useState(false);
   const [availableUsers, setAvailableUsers] = useState<string[]>([]);
+  const [exportingAnnotations, setExportingAnnotations] = useState(false);
+  const handleExportAnnotations = async () => {
+    setExportingAnnotations(true);
+    try {
+      const blob = await adminAPI.exportAnnotations();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `annotations-export-${new Date().toISOString()}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to export annotations:', error);
+      onError('Failed to export annotations');
+    } finally {
+      setExportingAnnotations(false);
+    }
+  };
 
   // Group management functions
   const handleCreateGroup = async (e: React.FormEvent) => {
@@ -199,12 +219,21 @@ const Groups: React.FC<GroupsProps> = ({
       <div className="groups-header">
         <h2>Manage Groups</h2>
         {user?.role === 'admin' && (
-          <button 
-            className="login-button"
-            onClick={() => setShowCreateGroupModal(true)}
-          >
-            + Create New Group
-          </button>
+          <div className="groups-actions">
+            <button 
+              className="outline-button"
+              onClick={handleExportAnnotations}
+              disabled={exportingAnnotations}
+            >
+              {exportingAnnotations ? 'Exporting...' : 'Export Annotations'}
+            </button>
+            <button 
+              className="login-button"
+              onClick={() => setShowCreateGroupModal(true)}
+            >
+              + Create New Group
+            </button>
+          </div>
         )}
       </div>
 

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::fs;
 use serde::{Deserialize, Serialize};
-use crate::models::{Group, Image, TagSuggestion, ApprovedTag, TagUpvote};
+use crate::models::{Group, Image, TagSuggestion, ApprovedTag, TagUpvote, AnnotationsExport};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AppData {
@@ -145,5 +145,15 @@ impl DataService {
         } else {
             false
         }
+    }
+
+    pub fn export_annotations(&self) -> serde_json::Value {
+        serde_json::to_value(AnnotationsExport {
+            groups: &self.groups,
+            images: &self.images,
+            tag_suggestions: &self.tag_suggestions,
+            approved_tags: &self.approved_tags,
+            tag_upvotes: &self.tag_upvotes,
+        }).unwrap_or_else(|_| serde_json::json!({ "error": "Failed to export annotations" }))
     }
 }

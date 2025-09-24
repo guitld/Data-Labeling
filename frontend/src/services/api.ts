@@ -98,12 +98,21 @@ export const tagsAPI = {
   
   getUpvotes: (tagId: string): Promise<{ upvotes: TagUpvote[] }> =>
     api.get(`/tags/${tagId}/upvotes`).then(res => res.data),
+
+  deleteApproved: (tagId: string): Promise<{ success: boolean; message?: string; error?: string }> =>
+    api.delete(`/tags/${tagId}`).then(res => res.data),
 };
 
 // Users API
 export const usersAPI = {
   getAll: (): Promise<string[]> =>
     api.get('/users').then(res => res.data),
+};
+
+// Admin API
+export const adminAPI = {
+  exportAnnotations: (): Promise<Blob> =>
+    api.get('/annotations/export', { responseType: 'blob' }).then(res => res.data),
 };
 
 // Chat API

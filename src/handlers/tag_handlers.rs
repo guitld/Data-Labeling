@@ -124,6 +124,34 @@ pub async fn upvote_tag(
     })))
 }
 
+pub async fn delete_approved_tag(
+    path: web::Path<String>,
+    data_service: web::Data<std::sync::Mutex<DataService>>,
+) -> Result<HttpResponse> {
+    let tag_id = path.into_inner();
+    println!("🗑️ Removing approved tag '{}'", tag_id);
+    let mut data = data_service.lock().unwrap();
+
+    let removed_tag = data.approved_tags.remove(&tag_id);
+
+    if removed_tag.is_some() {
+        data.tag_upvotes.retain(|_, upvote| upvote.tag_id != tag_id);
+        let _ = data.save_to_json();
+        println!("✅ Approved tag '{}' removed successfully", tag_id);
+
+        Ok(HttpResponse::Ok().json(serde_json::json!({
+            "success": true,
+            "message": "Approved tag removed successfully"
+        })))
+    } else {
+        println!("❌ Approved tag '{}' not found", tag_id);
+        Ok(HttpResponse::NotFound().json(serde_json::json!({
+            "success": false,
+            "error": "Approved tag not found"
+        })))
+    }
+}
+
 pub async fn get_all_tags(
     data_service: web::Data<std::sync::Mutex<DataService>>,
 ) -> Result<HttpResponse> {

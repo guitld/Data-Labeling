@@ -121,6 +121,21 @@ const ImageModal: React.FC<ImageModalProps> = ({
     }
   };
 
+  const isAdmin = user?.role === 'admin';
+
+  const handleRemoveApprovedTag = async (tagId: string) => {
+    try {
+      await tagsAPI.deleteApproved(tagId);
+      setTagUpvotesMap(prev => {
+        const updated = { ...prev };
+        delete updated[tagId];
+        return updated;
+      });
+    } catch (error) {
+      console.error('Error removing approved tag:', error);
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content-new" onClick={(e) => e.stopPropagation()}>
@@ -223,6 +238,15 @@ const ImageModal: React.FC<ImageModalProps> = ({
                             <span className="upvote-count">{tagUpvotes.length}</span>
                           </div>
                           <span className="tag-text">{tag.tag}</span>
+                          {isAdmin && (
+                            <button
+                              className="remove-tag-button"
+                              title="Remove approved tag"
+                              onClick={() => handleRemoveApprovedTag(tag.id)}
+                            >
+                              ✕
+                            </button>
+                          )}
                         </div>
                       );
                     })}

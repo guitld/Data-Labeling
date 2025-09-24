@@ -867,6 +867,32 @@ code {
   margin-bottom: 2rem;
 }
 
+.groups-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.outline-button {
+  background: transparent;
+  color: #1f2937;
+  border: 1px solid rgba(79, 70, 229, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.outline-button:hover {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.outline-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .groups-header h2 {
   color: #1e293b;
   font-size: 1.8rem;
@@ -1447,6 +1473,28 @@ code {
 
 .tag-item-approved:hover .upvote-section.not-upvoted {
   margin-left: 2.5rem;
+}
+
+.remove-tag-button {
+  margin-left: 0.5rem;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.remove-tag-button:hover {
+  background: #fecaca;
+  color: #7f1d1d;
+}
+
+.remove-tag-button:focus {
+  outline: 2px solid rgba(185, 28, 28, 0.3);
+  outline-offset: 2px;
 }
 
 .upvote-section {
