@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TagSuggestion, Image, Group, User } from '../../types';
+import { UPLOADS_BASE_URL } from '../../config';
 
 interface TagReviewProps {
   tagSuggestions: TagSuggestion[];
@@ -126,7 +127,7 @@ const TagReview: React.FC<TagReviewProps> = ({
       <div className="review-card-modern">
         <div className="review-image-container">
           <img
-            src={`http://localhost:8082/uploads/${currentImage.filename}?t=${Date.now()}`}
+            src={`${UPLOADS_BASE_URL}/${currentImage.filename}?t=${Date.now()}`}
             alt={currentImage.original_name}
             className="review-image"
           />

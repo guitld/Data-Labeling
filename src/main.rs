@@ -24,30 +24,45 @@ fn init_uploads_dir() -> std::io::Result<()> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Carregar variáveis de ambiente do arquivo .env
-    dotenv::dotenv().ok();
+    // Initialize logger
+    println!("🔧 Initializing logger...");
     env_logger::init();
+    println!("✅ Logger initialized");
     
     // Initialize uploads directory
+    println!("📁 Initializing uploads directory...");
     init_uploads_dir()?;
+    println!("✅ Uploads directory initialized");
     
     // Initialize services
+    println!("🔧 Initializing services...");
     let user_service = web::Data::new(UserService::new());
     let data_service = web::Data::new(Mutex::new(DataService::new()));
+    println!("✅ Services initialized");
     
     // Load data from JSON
     {
         let mut data = data_service.lock().unwrap();
         if let Err(e) = data.load_from_json() {
-            eprintln!("Error: Failed to load data from JSON: {}", e);
+            eprintln!("❌ Error: Failed to load data from JSON: {}", e);
             eprintln!("Please ensure data.json exists and is valid.");
             std::process::exit(1);
         } else {
-            println!("Data loaded from JSON successfully!");
+            println!("✅ Data loaded from JSON successfully!");
         }
     }
     
-    println!("Starting server on http://localhost:8082");
+    // Get server configuration from environment variables
+    let server_host = std::env::var("SERVER_HOST").unwrap_or_else(|_| "0.0.0.0".to_string());
+    let server_port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "8082".to_string());
+    let openai_api_key = std::env::var("OPENAI_API_KEY").unwrap_or_else(|_| "".to_string());
+    
+    println!("🚀 Starting Image Labeling System Backend");
+    println!("📡 Server: http://{}:{}", server_host, server_port);
+    println!("🔑 OpenAI API Key: {}", if openai_api_key.is_empty() { "Not set" } else { "Set" });
+    println!("📁 Uploads directory: ./uploads");
+    println!("📄 Data file: ./data.json");
+    println!("🌐 Server starting...");
     
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -101,7 +116,6 @@ async fn main() -> std::io::Result<()> {
             .route("/tags/{tag_id}", web::delete().to(delete_approved_tag))
             .route("/tags/approved", web::get().to(get_approved_tags))         // GET /tags/approved
             .route("/annotations/export", web::get().to(export_annotations))
-            .route("/annotations/export", web::get().to(export_annotations))
             
             // Chat routes - RESTful
             .route("/conversations", web::post().to(chat_endpoint))             // POST /conversations
@@ -109,7 +123,7 @@ async fn main() -> std::io::Result<()> {
             // AI routes - RESTful
             .route("/ai/tag-suggestions", web::post().to(generate_tag_suggestion)) // POST /ai/tag-suggestions
     })
-    .bind("127.0.0.1:8082")?
+    .bind(format!("{}:{}", server_host, server_port))?
     .run()
     .await
 }

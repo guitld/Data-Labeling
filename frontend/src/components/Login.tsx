@@ -18,9 +18,9 @@ const Login: React.FC<LoginProps> = ({ onLogin, loading, error }) => {
   };
 
   return (
-    <div className="app">
+    <div className="login-page">
       <div className="login-container">
-        <h1 className="login-title">ImageHub Login</h1>
+        <h1 className="login-title">Image Labeling System Login</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="form-label">Username</label>

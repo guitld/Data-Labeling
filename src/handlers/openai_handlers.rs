@@ -25,16 +25,24 @@ pub async fn generate_tag_suggestion(request: web::Json<TagSuggestionRequest>) -
     
     // Verificar se a API key está configurada
     let api_key = match std::env::var("OPENAI_API_KEY") {
-        Ok(key) => {
-            println!("OpenAI API key found: {}...", &key[..10]);
+        Ok(key) if !key.trim().is_empty() => {
+            println!("OpenAI API key found: {}...", &key[..10.min(key.len())]);
             key
+        },
+        Ok(_) => {
+            println!("OpenAI API key is empty");
+            return Ok(HttpResponse::BadRequest().json(TagSuggestionResponse {
+                success: false,
+                suggestion: None,
+                error: Some("OpenAI API key is empty. Please configure OPENAI_API_KEY environment variable.".to_string()),
+            }));
         },
         Err(e) => {
             println!("OpenAI API key not found: {}", e);
             return Ok(HttpResponse::BadRequest().json(TagSuggestionResponse {
                 success: false,
                 suggestion: None,
-                error: Some("OpenAI API key not configured".to_string()),
+                error: Some("OpenAI API key not configured. Please set OPENAI_API_KEY environment variable.".to_string()),
             }));
         }
     };
@@ -52,6 +60,24 @@ pub async fn generate_tag_suggestion(request: web::Json<TagSuggestionRequest>) -
         String::new()
     } else {
         format!("\n\nTags já existentes (NÃO repita estas): {}", existing_tags.join(", "))
+    };
+
+    let approved_tags_text = if req.approved_tags.is_empty() { 
+        "Nenhuma".to_string() 
+    } else { 
+        req.approved_tags.join(", ") 
+    };
+    
+    let rejected_tags_text = if req.rejected_tags.is_empty() { 
+        "Nenhuma".to_string() 
+    } else { 
+        req.rejected_tags.join(", ") 
+    };
+    
+    let pending_tags_text = if req.pending_tags.is_empty() { 
+        "Nenhuma".to_string() 
+    } else { 
+        req.pending_tags.join(", ") 
     };
 
     let prompt = format!(
@@ -76,9 +102,9 @@ Responda apenas com a tag sugerida, sem explicações adicionais.",
         req.group_name,
         req.image_name,
         req.group_name,
-        if req.approved_tags.is_empty() { "Nenhuma" } else { &req.approved_tags.join(", ") },
-        if req.rejected_tags.is_empty() { "Nenhuma" } else { &req.rejected_tags.join(", ") },
-        if req.pending_tags.is_empty() { "Nenhuma" } else { &req.pending_tags.join(", ") },
+        approved_tags_text,
+        rejected_tags_text,
+        pending_tags_text,
         existing_tags_text
     );
 
@@ -124,6 +150,7 @@ Responda apenas com a tag sugerida, sem explicações adicionais.",
     });
 
     // Fazer a requisição para a OpenAI
+    println!("📤 Sending request to OpenAI API...");
     let client = reqwest::Client::new();
     let response = match client
         .post("https://api.openai.com/v1/chat/completions")
@@ -133,8 +160,12 @@ Responda apenas com a tag sugerida, sem explicações adicionais.",
         .send()
         .await
     {
-        Ok(resp) => resp,
+        Ok(resp) => {
+            println!("📥 Received response from OpenAI API with status: {}", resp.status());
+            resp
+        },
         Err(e) => {
+            println!("❌ Connection error to OpenAI API: {}", e);
             return Ok(HttpResponse::InternalServerError().json(TagSuggestionResponse {
                 success: false,
                 suggestion: None,
@@ -146,8 +177,12 @@ Responda apenas com a tag sugerida, sem explicações adicionais.",
     // Processar a resposta da OpenAI
     if response.status().is_success() {
         let openai_response: serde_json::Value = match response.json().await {
-            Ok(data) => data,
+            Ok(data) => {
+                println!("📋 OpenAI response received: {:?}", data);
+                data
+            },
             Err(e) => {
+                println!("❌ JSON parse error: {}", e);
                 return Ok(HttpResponse::InternalServerError().json(TagSuggestionResponse {
                     success: false,
                     suggestion: None,
@@ -165,6 +200,8 @@ Responda apenas com a tag sugerida, sem explicações adicionais.",
             .and_then(|content| content.as_str())
             .map(|s| s.trim().to_string());
 
+        println!("🔍 Extracted suggestion: {:?}", suggestion);
+
         match suggestion {
             Some(sug) if !sug.is_empty() => {
                 println!("✅ AI tag suggestion generated: '{}'", sug);
@@ -175,29 +212,34 @@ Responda apenas com a tag sugerida, sem explicações adicionais.",
                 }))
             }
             _ => {
-                println!("❌ No AI tag suggestion generated");
+                println!("❌ No AI tag suggestion generated - empty or invalid response from OpenAI");
                 Ok(HttpResponse::Ok().json(TagSuggestionResponse {
                     success: false,
                     suggestion: None,
-                    error: Some("No suggestion generated".to_string()),
+                    error: Some("OpenAI returned an empty or invalid response. Please try again.".to_string()),
                 }))
             }
         }
     } else {
+        let status = response.status();
         let error_text = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
-        println!("❌ OpenAI API error: {}", error_text);
+        println!("❌ OpenAI API error (status: {}): {}", status, error_text);
         Ok(HttpResponse::InternalServerError().json(TagSuggestionResponse {
             success: false,
             suggestion: None,
-            error: Some(format!("OpenAI API error: {}", error_text)),
+            error: Some(format!("OpenAI API error (status: {}): {}", status, error_text)),
         }))
     }
 }
 
 async fn fetch_and_convert_image(image_url: &str) -> Result<String, Box<dyn std::error::Error>> {
+    println!("🖼️ Fetching image from URL: {}", image_url);
     let client = reqwest::Client::new();
     let response = client.get(image_url).send().await?;
+    println!("📥 Image response status: {}", response.status());
     let bytes = response.bytes().await?;
+    println!("📊 Image size: {} bytes", bytes.len());
     let base64 = base64::Engine::encode(&base64::engine::general_purpose::STANDARD, &bytes);
+    println!("✅ Image converted to base64 successfully");
     Ok(base64)
 }

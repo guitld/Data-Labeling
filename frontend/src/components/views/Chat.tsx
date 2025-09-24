@@ -17,7 +17,7 @@ interface ChatMessage {
   type: 'user' | 'ai';
   content: string;
   timestamp: Date;
-  data?: any;
+  data?: Record<string, unknown> | null;
 }
 
 const Chat: React.FC<ChatProps> = ({ 

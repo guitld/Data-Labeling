@@ -55,7 +55,8 @@ const Groups: React.FC<GroupsProps> = ({
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Failed to export annotations:', error);
-      onError('Failed to export annotations');
+      const message = error instanceof Error ? error.message : 'Failed to export annotations';
+      onError(message);
     } finally {
       setExportingAnnotations(false);
     }
@@ -81,8 +82,13 @@ const Groups: React.FC<GroupsProps> = ({
       } else {
         onError(response.error || 'Failed to create group');
       }
-    } catch (error: any) {
-      onError(error.response?.data?.error || 'Failed to create group');
+    } catch (error) {
+      if (error instanceof Error && 'response' in error && typeof error.response === 'object' && error.response !== null && 'data' in error.response) {
+        const data = (error.response as { data?: { error?: string } }).data;
+        onError(data?.error || 'Failed to create group');
+      } else {
+        onError(error instanceof Error ? error.message : 'Failed to create group');
+      }
     } finally {
       setCreatingGroup(false);
     }
@@ -110,9 +116,14 @@ const Groups: React.FC<GroupsProps> = ({
       } else {
         onError(response.error || 'Failed to add user to group');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error adding user to group:', error);
-      onError(error.response?.data?.error || 'Failed to add user to group');
+      if (error instanceof Error && 'response' in error && typeof error.response === 'object' && error.response !== null && 'data' in error.response) {
+        const data = (error.response as { data?: { error?: string } }).data;
+        onError(data?.error || 'Failed to add user to group');
+      } else {
+        onError(error instanceof Error ? error.message : 'Failed to add user to group');
+      }
     } finally {
       setAddingUser(false);
     }
@@ -130,9 +141,14 @@ const Groups: React.FC<GroupsProps> = ({
       } else {
         onError(response.error || 'Failed to remove user from group');
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error removing user from group:', error);
-      onError(error.response?.data?.error || 'Failed to remove user from group');
+      if (error instanceof Error && 'response' in error && typeof error.response === 'object' && error.response !== null && 'data' in error.response) {
+        const data = (error.response as { data?: { error?: string } }).data;
+        onError(data?.error || 'Failed to remove user from group');
+      } else {
+        onError(error instanceof Error ? error.message : 'Failed to remove user from group');
+      }
     }
   };
 
@@ -161,8 +177,13 @@ const Groups: React.FC<GroupsProps> = ({
       } else {
         onError(response.error || 'Failed to update group');
       }
-    } catch (error: any) {
-      onError(error.response?.data?.error || 'Failed to update group');
+    } catch (error) {
+      if (error instanceof Error && 'response' in error && typeof error.response === 'object' && error.response !== null && 'data' in error.response) {
+        const data = (error.response as { data?: { error?: string } }).data;
+        onError(data?.error || 'Failed to update group');
+      } else {
+        onError(error instanceof Error ? error.message : 'Failed to update group');
+      }
     } finally {
       setUpdatingGroup(false);
     }
@@ -184,8 +205,13 @@ const Groups: React.FC<GroupsProps> = ({
       } else {
         onError(response.error || 'Failed to delete group');
       }
-    } catch (error: any) {
-      onError(error.response?.data?.error || 'Failed to delete group');
+    } catch (error) {
+      if (error instanceof Error && 'response' in error && typeof error.response === 'object' && error.response !== null && 'data' in error.response) {
+        const data = (error.response as { data?: { error?: string } }).data;
+        onError(data?.error || 'Failed to delete group');
+      } else {
+        onError(error instanceof Error ? error.message : 'Failed to delete group');
+      }
     } finally {
       setDeletingGroup(false);
     }

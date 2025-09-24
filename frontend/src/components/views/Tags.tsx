@@ -1,5 +1,6 @@
 import React from 'react';
 import { TagSuggestion, ApprovedTag, User, Image, Group } from '../../types';
+import { UPLOADS_BASE_URL } from '../../config';
 
 interface TagsProps {
   tagSuggestions: TagSuggestion[];
@@ -52,7 +53,7 @@ const Tags: React.FC<TagsProps> = ({
                   >
                     {image ? (
                       <img 
-                        src={`http://localhost:8082/uploads/${image.filename}?t=${Date.now()}`} 
+                        src={`${UPLOADS_BASE_URL}/${image.filename}?t=${Date.now()}`} 
                         alt={image.original_name}
                         className="suggestion-preview-minimal"
                       />

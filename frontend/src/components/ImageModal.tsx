@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Image, Group, ApprovedTag, TagSuggestion, TagUpvote, User } from '../types';
 import { aiAPI, tagsAPI } from '../services/api';
+import { UPLOADS_BASE_URL } from '../config';
 
 interface ImageModalProps {
   image: Image | null;
@@ -94,28 +96,43 @@ const ImageModal: React.FC<ImageModalProps> = ({
       const rejectedTagsList = imageRejectedSuggestions.map(sug => sug.tag);
       const pendingTagsList = imagePendingSuggestions.map(sug => sug.tag);
       
-      const request = {
-        group_name: group.name,
+      const suggestionPayload = {
+        group_name: group?.name || 'Desconhecido',
         approved_tags: approvedTagsList,
         rejected_tags: rejectedTagsList,
         pending_tags: pendingTagsList,
         image_name: image.original_name,
-        image_url: `http://localhost:8082/uploads/${image.filename}`
+        image_url: `${UPLOADS_BASE_URL}/${image.filename}`,
       };
       
-      const response = await aiAPI.generateTagSuggestion(request);
+      const response = await aiAPI.generateTagSuggestion(suggestionPayload);
       
       if (response.success && response.suggestion) {
         setNewTagText(response.suggestion);
       } else {
         console.error('AI suggestion failed:', response.error);
-        // Fallback para "teste" se a API falhar
-        setNewTagText('teste');
+        // Mostrar erro específico para o usuário
+        if (response.error) {
+          alert(`Erro na sugestão de IA: ${response.error}`);
+        } else {
+          alert('Erro na sugestão de IA: Resposta inválida do servidor.');
+        }
       }
     } catch (error) {
       console.error('Error generating AI suggestion:', error);
-      // Fallback para "teste" em caso de erro
-      setNewTagText('teste');
+      // Mostrar erro específico para o usuário
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const errorMessage = error.response.data?.error || 'Erro desconhecido';
+          alert(`Erro na API de IA (${error.response.status}): ${errorMessage}`);
+        } else if (error.request) {
+          alert('Erro de conexão com a API de IA. Verifique se o servidor está rodando.');
+        } else {
+          alert(`Erro na configuração da requisição: ${error.message}`);
+        }
+      } else {
+        alert('Erro inesperado na sugestão de IA.');
+      }
     } finally {
       setIsGeneratingAI(false);
     }
@@ -149,7 +166,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
         <div className="modal-layout">
           <div className="modal-image-container">
             <img
-              src={`http://localhost:8082/uploads/${image.filename}?t=${Date.now()}`}
+              src={`${UPLOADS_BASE_URL}/${image.filename}?t=${Date.now()}`}
               alt={image.original_name}
               className="modal-image-large"
             />

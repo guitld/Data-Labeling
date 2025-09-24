@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Group, ApprovedTag, TagSuggestion, User } from '../types';
+import { UPLOADS_BASE_URL } from '../config';
 
 interface ImageCardProps {
   image: Image;
@@ -28,7 +29,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
     <div className="image-item">
       <div className="image-container" onClick={() => onImageClick(image)}>
           <img 
-            src={`http://localhost:8082/uploads/${image.filename}?v=${new Date(image.uploaded_at).getTime()}`} 
+            src={`${UPLOADS_BASE_URL}/${image.filename}?v=${new Date(image.uploaded_at).getTime()}`} 
             alt={image.original_name}
             className="gallery-image"
           />

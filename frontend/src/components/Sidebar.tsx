@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="sidebar-header">
         <div className="logo">
           <span className="logo-icon">🖼️</span>
-          <span className="logo-text">ImageHub</span>
+          <span className="logo-text">Image Labeling System</span>
         </div>
       </div>
 

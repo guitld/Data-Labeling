@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { LoginRequest, LoginResponse, Image, Group, TagSuggestion, ApprovedTag, TagUpvote } from '../types';
+import { ChatRequest } from './chat';
 
-const API_BASE_URL = 'http://localhost:8082';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8082';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -28,6 +29,14 @@ api.interceptors.response.use(
   },
   (error) => {
     console.error('Response error:', error);
+    if (error.response) {
+      console.error('Error response data:', error.response.data);
+      console.error('Error response status:', error.response.status);
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Error setting up request:', error.message);
+    }
     return Promise.reject(error);
   }
 );
@@ -117,10 +126,7 @@ export const adminAPI = {
 
 // Chat API
 export const chatAPI = {
-  sendMessage: (data: {
-    message: string;
-    context: any;
-  }): Promise<{ success: boolean; response?: string; error?: string }> =>
+  sendMessage: (data: ChatRequest): Promise<{ success: boolean; response?: string; error?: string }> =>
     api.post('/conversations', data).then(res => res.data),
 };
 

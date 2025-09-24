@@ -21,6 +21,15 @@ code {
     monospace;
 }
 
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+  padding: 2rem 1rem;
+}
+
 .login-container {
   background: white;
   padding: 2rem;
@@ -5099,6 +5108,15 @@ code {
 
 .message.user .markdown-tr {
   border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+  padding: 2rem 1rem;
 }
 
 
